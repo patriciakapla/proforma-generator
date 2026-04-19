@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PROFORMA</title>
+  </head>
+  <body>
+    <header class="header" id="header">
+      <h1 class="heading-primary">PROFORMA</h1>
+      <span class="header-subheading">Certificación de avance</span>
+      REVIEW: <img src="xxxx" class="logo" />
+      <p class="address">Av. Córdoba 937 oficinas 3 y 4</p>
+      <p class="address">Buenos Aires, Argentina</p>
+      <p class="address">CUIT 30-58129041-8</p>
+    </header>
+    <section class="proforma-info" id="proforma-info">
+      <div class="proforma-info-client">
+        <span class="subheading">Datos del cliente</span>
+        <p class="client-name">{{clientName}}</p>
+        <p class="client-info">Att. {{clientResponsible}}</p>
+        <p class="client-info">CUIT {{clientCuit}}</p>
+      </div>
+      <div class="proforma-info-project">
+        <span class="subheading">ID Proyecto</span>
+        <p class="project-info">J-{{contractNumber}}</p>
+        <p class="project-info">{{contractTitle}}</p>
+        <p class="project-info">Propuesta P-{{proposalNumber}}</p>
+        <p class="project-info">Fecha de propuesta: {{proposalDate}}</p>
+        <p class="project-info">Fecha de proforma: {{today}}</p>
+      </div>
+    </section>
+  </body>
+</html>
