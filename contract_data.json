@@ -1,9 +1,9 @@
 {
-  "jobNumber": 4321,
-  "jobTitle": "Vampire hunt",
+  "contractNumber": 4321,
+  "contractTitle": "Vampire hunt",
   "clientName": "Kill-a-Vamp LLC",
   "clientCuit": 34566128642,
-  "clientResponsible": "Buffy Summers",
+  "clientProjectManager": "Buffy Summers",
   "proposalNumber": 1234,
   "proposalDate": {
     "year": 2021,
