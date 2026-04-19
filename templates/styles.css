@@ -1,0 +1,68 @@
+@page {
+  size: A4;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url(/fonts/Manrope-VariableFont_wght.ttf);
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url(/fonts/Rubik-VariableFont_wght.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+}
+
+h1 {
+  font-family: "Manrope", sans-serif;
+  font-size: 3.2rem;
+  font-weight: bold;
+}
+
+.subheading {
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.header {
+  background-color: rebeccapurple;
+  margin: 4rem 6rem;
+  display: flex;
+  padding: 1rem 2rem;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: auto;
+}
+.heading-header {
+  /* flex: auto; */
+  /* background-color: red; */
+  font-family: "Manrope", sans-serif;
+  font-size: 3.2rem;
+  font-weight: bold;
+}
+.header-subheading {
+  text-transform: uppercase;
+  /* flex: auto; */
+  /* background-color: blue; */
+  align-self: flex-start;
+}
+
+.header-info {
+  flex: auto;
+}

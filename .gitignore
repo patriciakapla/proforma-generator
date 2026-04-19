@@ -1,3 +1,7 @@
+
+# Node/tailwind
+node_modules/
+
 # Generated PDFs
 pdf/
 
