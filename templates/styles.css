@@ -1,5 +1,15 @@
+/*
+DESIGN SYSTEM
+Main Color  #792021
+Grays #333333
+
+*/
+
+/* GENERAL */
+
 @page {
   size: A4;
+  margin: 0;
 }
 
 @font-face {
@@ -15,6 +25,7 @@
 * {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 html {
@@ -23,46 +34,85 @@ html {
 
 body {
   font-family: "Rubik", sans-serif;
+  color: #555555;
 }
 
-h1 {
-  font-family: "Manrope", sans-serif;
-  font-size: 3.2rem;
-  font-weight: bold;
-}
-
-.subheading {
-  text-transform: uppercase;
-  display: inline-block;
-}
+/* HEADER */
 
 .header {
-  background-color: rebeccapurple;
-  margin: 4rem 6rem;
+  margin: 5rem 6rem;
   display: flex;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
+  gap: 0.5rem;
 }
 
 .header-title {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   flex: auto;
 }
 .heading-header {
-  /* flex: auto; */
-  /* background-color: red; */
+  margin-top: 0.9rem;
+  margin-bottom: 0;
+  font-size: 19rem;
   font-family: "Manrope", sans-serif;
+  color: #792021;
   font-size: 3.2rem;
-  font-weight: bold;
+  letter-spacing: -0.17rem;
 }
 .header-subheading {
+  display: inline-block;
+  margin-top: 0px;
   text-transform: uppercase;
-  /* flex: auto; */
-  /* background-color: blue; */
   align-self: flex-start;
+  font-weight: 600;
+  letter-spacing: 0.05rem;
+  color: #555555;
+
+  transform: translate(0px, 10px);
 }
 
 .header-info {
-  flex: auto;
+  display: flex;
+  justify-content: start;
+  flex-grow: 2;
+}
+
+.logo-container {
+  height: 80px;
+  width: 80px;
+  margin: 0px;
+  display: flex;
+  flex-grow: 2;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.logo {
+  height: 80px;
+  width: 80px;
+  align-self: left;
+}
+.header-company {
+  color: #792021;
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.address-container {
+  display: flex;
+  font-size: 1.4;
+  flex-direction: column;
+  text-align: left;
+  font-size: 1.2rem;
+  align-items: end;
+  color: #555555;
+  align-self: center;
+}
+
+.subheading {
+  text-transform: uppercase;
+  display: inline-block;
 }
