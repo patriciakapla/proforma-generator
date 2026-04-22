@@ -17,7 +17,7 @@ def render_final_html(template, being_billed, base_templates_url, **contract_dat
         string=template.render(beingBilled=being_billed, **contract_data),
         base_url=base_templates_url,
     )
-    # print(*contract_data)        #    TESTING
+    # print(*contract_data)        #     TESTING
     return final_html
 
 
@@ -35,3 +35,25 @@ def define_pdf_name(contract_number, contract_title, today):
 
 def write_pdf(final_html, pdf_name):
     final_html.write_pdf("./pdf/" + pdf_name)
+
+
+# testing
+if __name__ == "__main__":
+    being_billed = 0
+    env = create_jinja_environment("templates")
+
+    template = load_template(env, "index.html")
+
+    final_html = render_final_html(
+        template,
+        being_billed,
+        base_templates_url="./templates/",
+        contractNumber=666,
+        contractTitle="Vampire Hunt",
+    )
+
+    # pdf_name = define_pdf_name("test", "test", "test")
+
+    # print(pdf_name)
+
+    write_pdf(final_html, "test.pdf")

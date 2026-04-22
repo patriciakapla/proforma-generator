@@ -1,6 +1,10 @@
+test.json
+/templates/stylesicsa.css
+/templates/indexicsa.html
+/templates/logo100png.png
+/templates/logo100svg.svg
+.gitignore
 
-# Node/tailwind
-node_modules/
 
 # Generated PDFs
 pdf/
