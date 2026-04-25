@@ -52,8 +52,4 @@ if __name__ == "__main__":
         contractTitle="Vampire Hunt",
     )
 
-    # pdf_name = define_pdf_name("test", "test", "test")
-
-    # print(pdf_name)
-
     write_pdf(final_html, "test.pdf")

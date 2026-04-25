@@ -102,6 +102,12 @@ def generate_pdf(data, milestone_to_bill, today):
         base_templates_url="./templates/",
         contractNumber=data["contractNumber"],
         contractTitle=data["contractTitle"],
+        clientName=data["clientName"],
+        clientProjectManager=data["clientProjectManager"],
+        clientTaxID=data["clientTaxID"],
+        proposalNumber=data["proposalNumber"],
+        proposalDate=data["proposalDate"],
+        dateToday=today,
     )
     pdf_name = generator.define_pdf_name(
         data["contractNumber"], data["contractTitle"], today

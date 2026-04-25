@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="styles.css" rel="stylesheet" />
+    <title>PROFORMA</title>
+  </head>
+  <body>
+    <header class="header" id="header">
+      <div class="header-title">
+        <span class="header-subheading">Vampire hunting division</span>
+        <h1 class="heading-header">PROFORMA INVOICE</h1>
+      </div>
+        <div class="address-container">
+            <img src="./buffy-vh-INC.png" class="logo" />
+          <p class="header-company">Buffy Vampire Hunters Inc.</p>
+          <p class="address">1630, Revello Drive</p>
+          <p class="address">Sunnydale, California - USA</p>
+          <p class="address">Tax ID 493-62-0604</p>
+        </div>
+    </header>
+    <section class="proforma-info" id="proforma-info">
+      <div class="proforma-info-client">
+        <span class="subheading">Client Details</span>
+        <p class="client-name">{{clientName}}</p>
+        <p class="client-info">Attn. {{clientProjectManager}}</p>
+        <p class="client-info">Tax ID: {{clientTaxID}}</p>
+      </div>
+      <div class="proforma-info-project">
+        <span class="subheading">Project Details</span>
+        <p class="project-info">{{contractNumber}}</p>
+        <p class="project-info">{{contractTitle}}</p>
+        <p class="project-info">Proposal &#8470 {{proposalNumber}}</p>
+        <p class="project-info">Proposal date: 
+            {% for key, value in proposalDate.items() %}
+            {{value}}
+            {% endfor %}</p>
+        <p class="project-info">Proforma issue date: {{dateToday}}</p>
+      </div>
+    </section>
+  </body>
+</html>

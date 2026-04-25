@@ -2,12 +2,13 @@
   "contractNumber": 4321,
   "contractTitle": "Vampire hunt",
   "clientName": "Kill-a-Vamp LLC",
-  "clientCuit": 34566128642,
+  "clientTaxID": 34566128642,
   "clientProjectManager": "Buffy Summers",
   "proposalNumber": 1234,
   "proposalDate": {
     "year": 2021,
-    "month": 4
+    "separator": "-",
+    "month": "04"
   },
   "price": 1000,
   "currency": "USD",
