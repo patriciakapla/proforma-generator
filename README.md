@@ -9,5 +9,3 @@ It allows you to:
 - Calculate billing values (percentages and adjustments)
 - Generate a formatted PDF for the selected billing
 - Update the billing status in the source JSON file
-
-teste

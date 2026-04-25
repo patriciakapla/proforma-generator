@@ -11,26 +11,26 @@
   },
   "price": 1000,
   "currency": "USD",
-  "paymentSchedule": {
-    "1": {
-      "description": "Upfront",
+  "paymentSchedule": [
+    {
       "percentage": 20,
+      "description": "Upfront",
       "billed": true
     },
-    "2": {
+    {
+      "percentage": 30,
       "description": "Vampire study",
-      "percentage": 30,
       "billed": false
     },
-    "3": {
+    {
+      "percentage": 30,
       "description": "Vampire hunt",
-      "percentage": 30,
       "billed": false
     },
-    "4": {
-      "description": "Report delivery",
+    {
       "percentage": 20,
+      "description": "Report delivery",
       "billed": false
     }
-  }
+  ]
 }
