@@ -1,9 +1,13 @@
 {
   "contractNumber": 4321,
   "contractTitle": "Vampire hunt",
-  "clientName": "Kill-a-Vamp LLC",
+  "clientName": "Angel Investigations",
   "clientTaxID": 34566128642,
-  "clientProjectManager": "Buffy Summers",
+  "clientProjectManager": "Mr. Angel",
+  "address": {
+    "1st_line": "4121 Wilshire Blvd",
+    "2nd_line": "Los Angeles, CA"
+  },
   "proposalNumber": 1234,
   "proposalDate": {
     "year": 2021,

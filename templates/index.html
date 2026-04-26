@@ -14,31 +14,37 @@
         <span class="header-subheading">Vampire hunting division</span>
         <h1 class="heading-header">PROFORMA INVOICE</h1>
       </div>
-        <div class="address-container">
-            <img src="./buffy-vh-INC.png" class="logo" />
-          <p class="header-company">Buffy Vampire Hunters Inc.</p>
-          <p class="address">1630, Revello Drive</p>
-          <p class="address">Sunnydale, California - USA</p>
-          <p class="address">Tax ID 493-62-0604</p>
-        </div>
-    </header>
-    <section class="proforma-info" id="proforma-info">
-      <div class="proforma-info-client">
-        <span class="subheading">Client Details</span>
-        <p class="client-name">{{clientName}}</p>
-        <p class="client-info">Attn. {{clientProjectManager}}</p>
-        <p class="client-info">Tax ID: {{clientTaxID}}</p>
+      <div class="address-container">
+        <img src="./buffy-vh-INC.png" class="logo" />
+        <p class="header-company">Buffy Vampire Hunters Inc.</p>
+        <p class="address">1630, Revello Drive</p>
+        <p class="address">Sunnydale, California - USA</p>
+        <p class="address">Tax ID 493-62-0604</p>
       </div>
-      <div class="proforma-info-project">
+    </header>
+    <section class="client-section">
+      <div class="client">
+        <span class="subheading">Client Details</span>
+        <h2 class="title">{{clientName}}</h2>
+
+        <div class="details-container">
+          <span class="details"> Attn. {{clientProjectManager}} </span>
+          {% for key, value in address.items() %}
+          <span class="details">{{value}}</span>
+          {% endfor %}
+          <span class="details">Tax ID: {{clientTaxID}}</span>
+        </div>
+      </div>
+      <div class="project">
         <span class="subheading">Project Details</span>
-        <p class="project-info">{{contractNumber}}</p>
-        <p class="project-info">{{contractTitle}}</p>
-        <p class="project-info">Proposal &#8470 {{proposalNumber}}</p>
-        <p class="project-info">Proposal date: 
-            {% for key, value in proposalDate.items() %}
-            {{value}}
-            {% endfor %}</p>
-        <p class="project-info">Proforma issue date: {{dateToday}}</p>
+        <h2 class="title">{{contractTitle}}</h2>
+        <span class="details">Contract number: {{contractNumber}}</span>
+        <span class="details">Proposal &#8470; {{proposalNumber}}</span>
+        <span class="details">
+          Proposal date: {% for key, value in proposalDate.items() %} {{value}}
+          {% endfor %}
+        </span>
+        <span class="details">Proforma issue date: {{dateToday}}</span>
       </div>
     </section>
   </body>
