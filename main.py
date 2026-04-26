@@ -57,7 +57,7 @@ def generate_proforma(
     generate_pdf(data, milestone_to_bill, today)
 
 
-def print_milestones(milestones_list: list):
+def print_milestones(milestones_list):
     for i, milestone in enumerate(milestones_list):
         print(f"[bold yellow][{i+1}]: [/bold yellow]", sep="", end=" ")
         for key, value in milestone.items():
@@ -93,12 +93,13 @@ def get_date():
 
 
 def generate_pdf(data, milestone_to_bill, today):
+
     env = generator.create_jinja_environment("templates")
     template = generator.load_template(env, "index.html")
     final_html = generator.render_final_html(
         template,
-        # variables to be inserted in HTML
         milestone_to_bill,
+        # variables to be inserted in HTML
         base_templates_url="./templates/",
         contractNumber=data["contractNumber"],
         contractTitle=data["contractTitle"],
@@ -109,11 +110,20 @@ def generate_pdf(data, milestone_to_bill, today):
         proposalDate=data["proposalDate"],
         dateToday=today,
         address=data["address"],
+        contractAmount=format_price(data, "contractAmount"),
+        paymentSchedule=data["paymentSchedule"],
+        milestoneToBill=milestone_to_bill,
     )
     pdf_name = generator.define_pdf_name(
         data["contractNumber"], data["contractTitle"], today
     )
     generator.write_pdf(final_html, pdf_name)
+
+
+def format_price(data, price):
+    amount = data[price]
+    formated_amount = f"{amount:,.2f}"
+    return formated_amount
 
 
 if __name__ == "__main__":
