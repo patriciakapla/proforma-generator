@@ -47,5 +47,42 @@
         <span class="details">Proforma issue date: {{dateToday}}</span>
       </div>
     </section>
+    <section class="payment-section">
+      <div class="payment-header">
+        <h2 class="title">Payment Schedule</h2>
+        <div class="total-container">
+          <span class="subheading"
+            >Contract amount
+            <span style="font-size: 0.8rem">({{currency}}) </span></span
+          >
+          <h2 class="title">${{contractAmount}}</h2>
+        </div>
+      </div>
+      <div class="table">
+        <div class="table-heading">
+          <span class="subheading">Milestone</span>
+          <span class="subheading">Percentage</span>
+          <span class="subheading"
+            >Amount
+            <span style="font-size: 0.8rem">({{currency}}) </span>
+          </span>
+        </div>
+        <div class="table-body">
+          {% for item in paymentSchedule %}
+          <div
+            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if loop.index == milestoneToBill else ''}}"
+          >
+            {% for key, value in item.items() %} {%if key == "description"%}
+            <p class="milestone">{{value}}</p>
+            {%elif key == "percentage"%}
+            <p class="percentage">{{value}}%</p>
+            {%elif key == "amount"%}
+            <p class="amount">${{value}}</p>
+            {%else%}{%endif%} {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
   </body>
 </html>

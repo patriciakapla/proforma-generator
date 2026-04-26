@@ -14,28 +14,33 @@
     "separator": "-",
     "month": "04"
   },
-  "price": 1000,
+  "contractAmount": 10000,
   "currency": "USD",
   "paymentSchedule": [
     {
-      "percentage": 20,
       "description": "Upfront",
-      "billed": true
-    },
-    {
-      "percentage": 30,
-      "description": "Vampire study",
-      "billed": false
-    },
-    {
-      "percentage": 30,
-      "description": "Vampire hunt",
-      "billed": false
-    },
-    {
       "percentage": 20,
+      "billed": true,
+      "amount": 0
+    },
+    {
+      "description": "Vampire study",
+      "percentage": 30,
+      "billed": false,
+      "amount": 0
+    },
+    {
+      "description": "Vampire hunt",
+      "percentage": 30,
+      "billed": false,
+      "amount": 0
+    },
+    {
       "description": "Report delivery",
-      "billed": false
+      "percentage": 20,
+      "billed": false,
+      "amount": 0
     }
-  ]
+  ],
+  "priceList": []
 }
