@@ -50,7 +50,7 @@
     <section class="payment-section">
       <div class="payment-header">
         <h2 class="title">Payment Schedule</h2>
-        <div class="total-container">
+        <div class="contract-total-container">
           <span class="subheading"
             >Contract amount
             <span style="font-size: 0.8rem">({{currency}}) </span></span
@@ -83,6 +83,30 @@
           {% endfor %}
         </div>
       </div>
+    </section>
+    <section class="total-section">
+      <div class="ipc-container">
+        <div class="ipc-titles">
+          <p class="ipc-title">Base Month:</p>
+          <p class="ipc-title">Base month price index:</p>
+          <p class="ipc-title">Current month price index:</p>
+          <p class="ipc-title">Adjustment percentage:</p>
+          <p class="ipc-title">Adjustment amount:</p>
+          <span class="ipc-disclaimer"
+            >Calculation based on CPI data from INDEC</span
+          >
+        </div>
+        <div class="ipc-data">
+          <p class="ipc-data">
+            {% for key, value in proposalDate.items() %} {{value}} {% endfor %}
+          </p>
+          <p class="ipc-data">REVIEW:{{baseIPC}}</p>
+          <p class="ipc-data">REVIEW:{{currentIPC}}</p>
+          <p class="ipc-data">REVIEW:{{ipcPercentage}}</p>
+          <p class="ipc-data">REVIEW:{{adjustmentAmount}}</p>
+        </div>
+      </div>
+      <div class="total-container"></div>
     </section>
   </body>
 </html>

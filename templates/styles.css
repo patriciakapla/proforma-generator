@@ -37,7 +37,6 @@ Grays #555555 #6a6965 #949494 #dddcdb
 * {
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 html {
@@ -182,7 +181,7 @@ body {
   align-items: center;
 }
 
-.total-container {
+.contract-total-container {
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -191,7 +190,7 @@ body {
   align-items: center;
 }
 
-.total-container h2 {
+.contract-total-container h2 {
   margin-top: 0.3rem;
   margin-bottom: 0;
 }
@@ -210,9 +209,8 @@ body {
   align-items: center;
 }
 
-REVIEW: 
 .table-heading .subheading {
-  font-size: 1.4rem;
+  font-size: 1.2rem !important;
 }
 
 .table-body {
@@ -225,8 +223,9 @@ REVIEW:
   display: flex;
   height: 3rem;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   letter-spacing: 0.05rem;
+  text-transform: uppercase;
 }
 
 .table-row :nth-child(1),
@@ -242,11 +241,6 @@ REVIEW:
   text-align: center;
 }
 
-/* .amount,
-.percentage {
-  text-align: center;
-} */
-
 .billed {
   color: #6a6965;
 }
@@ -259,4 +253,33 @@ REVIEW:
   background-color: #dddcdb;
   color: #792021;
   font-weight: 600;
+}
+
+/* TOTAL SECTION */
+
+.total-section {
+  display: flex;
+  padding: 3rem 0rem;
+  margin: 0rem 9rem;
+}
+.ipc-container {
+  display: flex;
+  /* flex: 1.5; */
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+/* .total-container {
+  flex: 1;
+} */
+
+.ipc-title,
+.ipc-data {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.ipc-disclaimer {
+  white-space: nowrap;
 }
