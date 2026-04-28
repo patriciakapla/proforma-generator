@@ -10,9 +10,8 @@
   },
   "proposalNumber": 1234,
   "proposalDate": {
-    "year": 2021,
-    "separator": "-",
-    "month": "04"
+    "year": 2026,
+    "month": 1
   },
   "contractAmount": 10000,
   "currency": "USD",
@@ -21,26 +20,25 @@
       "description": "Upfront",
       "percentage": 20,
       "billed": true,
-      "amount": 0
+      "amount": "2,000.00"
     },
     {
       "description": "Vampire study",
       "percentage": 30,
       "billed": false,
-      "amount": 0
+      "amount": "3,000.00"
     },
     {
       "description": "Vampire hunt",
       "percentage": 30,
       "billed": false,
-      "amount": 0
+      "amount": "3,000.00"
     },
     {
       "description": "Report delivery",
       "percentage": 20,
       "billed": false,
-      "amount": 0
+      "amount": "2,000.00"
     }
-  ],
-  "priceList": []
+  ]
 }

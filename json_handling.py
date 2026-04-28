@@ -1,30 +1,19 @@
 import json
 
 
-def load_data(file_route):
+def load_data(file_route: str):
     with open(file_route, "r", encoding="utf8") as file:
-        billing_data = json.load(file)
-    return billing_data
+        data = json.load(file)
+    return data
 
 
-def select_milestone(billing_data):
-    for milestone_id, milestone in billing_data["paymentSchedule"].items():
-        print("[" + milestone_id + "]")
-        for key, value in milestone.items():
-            print(
-                key + ":",
-                value,
-            )
-        print()
-    selected_milestone = input("Enter code for the milestone to be billed: ")
-    return selected_milestone
+def update_billing_status(file_pointer, selected_milestone):
+    file_pointer["paymentSchedule"][selected_milestone][
+        "billed"
+    ] = True  # REVIEW: hardcoded True
+    return file_pointer
 
 
-def update_billing_data(billing_data, selected_milestone):
-    billing_data["paymentSchedule"][selected_milestone]["billed"] = True
-    return billing_data
-
-
-def update_contract_data(billing_data):
+def update_json(file_pointer):
     with open("contract_data.json", "w", encoding="utf8") as file:
-        json.dump(billing_data, file, indent=2)
+        json.dump(file_pointer, file, indent=2)
