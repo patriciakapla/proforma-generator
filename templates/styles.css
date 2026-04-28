@@ -37,6 +37,7 @@ Grays #555555 #6a6965 #949494 #dddcdb
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -261,25 +262,108 @@ body {
   display: flex;
   padding: 3rem 0rem;
   margin: 0rem 9rem;
-}
-.ipc-container {
-  display: flex;
-  /* flex: 1.5; */
   justify-content: space-around;
-  gap: 1rem;
+  gap: 2rem;
 }
 
-/* .total-container {
-  flex: 1;
-} */
-
-.ipc-title,
-.ipc-data {
+.ipc-container {
+  padding: 1rem 3rem;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  /* flex: 1; */
+  gap: 1rem;
+  border: 2px solid #792021;
+  border-radius: 7px;
+  align-items: center;
+}
+
+.total-container {
+  background-color: rgb(121, 32, 33);
+  padding: 1rem 2rem;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  flex: 1.5;
+  gap: 2rem;
+}
+
+.ipc-data-container {
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  border-bottom: 1px solid #dddcdb;
+}
+
+.ipc-title-container,
+.ipc-detail-container,
+.subtotal-title-container,
+.subtotal-detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  white-space: nowrap;
+  letter-spacing: 0.05rem;
+}
+
+.ipc-detail-container {
+  align-items: flex-end;
+}
+
+.subtotal-detail-container {
+  align-items: flex-end;
+}
+
+.ipc-title {
+  text-transform: uppercase;
+}
+
+.ipc-detail {
+  font-weight: 600;
 }
 
 .ipc-disclaimer {
   white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+.subtotal-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.total-amount-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.subtotal-title,
+.subtotal-detail,
+.total-text {
+  color: #e6e6e6;
+  letter-spacing: 0.07rem;
+}
+
+.highlight {
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+}
+
+.total-text-container {
+  display: flex;
+  text-transform: uppercase;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.total-amount {
+  font-size: 1.8rem;
+  color: #fff;
+  font-weight: 600;
 }

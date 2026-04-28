@@ -86,27 +86,61 @@
     </section>
     <section class="total-section">
       <div class="ipc-container">
-        <div class="ipc-titles">
-          <p class="ipc-title">Base Month:</p>
-          <p class="ipc-title">Base month price index:</p>
-          <p class="ipc-title">Current month price index:</p>
-          <p class="ipc-title">Adjustment percentage:</p>
-          <p class="ipc-title">Adjustment amount:</p>
-          <span class="ipc-disclaimer"
-            >Calculation based on CPI data from INDEC</span
-          >
+        <p class="subheading">Price adjustment</p>
+        <div class="ipc-data-container">
+          <div class="ipc-title-container">
+            <p class="ipc-title">Base Month:</p>
+            <p class="ipc-title">Base month price index:</p>
+            <p class="ipc-title">Current month price index:</p>
+            <p class="ipc-title">Adjustment percentage:</p>
+            <p class="ipc-title">Adjustment amount:</p>
+          </div>
+          <div class="ipc-detail-container">
+            <p class="ipc-detail">
+              {% for key, value in proposalDate.items() %} {{value}} {% endfor
+              %}
+            </p>
+            <p class="ipc-detail">REVIEW:{{baseIPC}}</p>
+            <p class="ipc-detail">REVIEW:{{currentIPC}}</p>
+            <p class="ipc-detail">REVIEW:{{ipcPercentage}}</p>
+            <p class="ipc-detail">REVIEW:{{adjustmentAmount}}</p>
+          </div>
         </div>
-        <div class="ipc-data">
-          <p class="ipc-data">
-            {% for key, value in proposalDate.items() %} {{value}} {% endfor %}
-          </p>
-          <p class="ipc-data">REVIEW:{{baseIPC}}</p>
-          <p class="ipc-data">REVIEW:{{currentIPC}}</p>
-          <p class="ipc-data">REVIEW:{{ipcPercentage}}</p>
-          <p class="ipc-data">REVIEW:{{adjustmentAmount}}</p>
+        <span class="ipc-disclaimer"
+          >*Calculation based on CPI data from INDEC</span
+        >
+      </div>
+      <div class="total-container">
+        <div class="subtotal-container">
+          <div class="subtotal-title-container">
+            <p class="subtotal-title">Subtotal:</p>
+            <p class="subtotal-title">CPI adjustment:</p>
+            <p class="subtotal-title highlight">Adjusted subtotal:</p>
+            <p class="subtotal-title">Tax(21%):</p>
+          </div>
+          <div class="subtotal-detail-container">
+            <p class="subtotal-detail">
+              {{paymentSchedule[milestoneToBill]["amount"]}}
+            </p>
+            <p class="subtotal-detail">REVIEW:{{adjustmentAmount}}</p>
+            <p class="subtotal-detail highlight">REVIEW:{{adjustedSubtotal}}</p>
+            <p class="subtotal-detail">REVIEW:{{taxAmount}}</p>
+          </div>
+        </div>
+        <div class="total-amount-container">
+          <div class="total-text-container">
+            <p class="total-text highlight">Total amount due</p>
+            <p class="total-text">({{currency}})</p>
+          </div>
+          <p class="total-amount">REVIEW: $3.500,00</p>
         </div>
       </div>
-      <div class="total-container"></div>
+    </section>
+    <section class="payment-instructions-section">
+      <div class="bank">
+        <p class="subheading">Bank account</p>
+      </div>
+      <div class="instructions"></div>
     </section>
   </body>
 </html>
