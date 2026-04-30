@@ -88,15 +88,14 @@
           <div class="ipc-title-container">
             <p class="ipc-title">Base Month:</p>
             <p class="ipc-title">Current Month:</p>
-            <p class="ipc-title">cpiVariation</p>
-            <p class="ipc-title">Adjustment percentage:</p>
+            <p class="ipc-title">cpi Variation</p>
             <p class="ipc-title">Adjustment amount:</p>
           </div>
           <div class="ipc-detail-container">
             <p class="ipc-detail">{{baseMonth}}</p>
             <p class="ipc-detail">{{currentMonth}}</p>
             <p class="ipc-detail">{{cpiVariation}}</p>
-            <p class="ipc-detail">REVIEW:{{adjustmentAmount}}</p>
+            <p class="ipc-detail">${{adjustmentAmount}}</p>
           </div>
         </div>
         <span class="ipc-disclaimer"
@@ -115,8 +114,8 @@
             <p class="subtotal-detail">
               {{paymentSchedule[milestoneToBill]["amount"]}}
             </p>
-            <p class="subtotal-detail">REVIEW:{{adjustmentAmount}}</p>
-            <p class="subtotal-detail highlight">REVIEW:{{adjustedSubtotal}}</p>
+            <p class="subtotal-detail">{{adjustmentAmount}}</p>
+            <p class="subtotal-detail highlight">{{adjustedSubtotal}}</p>
             <p class="subtotal-detail">REVIEW:{{taxAmount}}</p>
           </div>
         </div>

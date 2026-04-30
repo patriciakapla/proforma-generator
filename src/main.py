@@ -6,6 +6,7 @@ import template_generator as generator
 import pricing
 import requests
 from pathlib import Path
+import utils
 
 app = typer.Typer()
 
@@ -54,7 +55,7 @@ def generate_proforma(
     - milestone_to_bill: optional argument - displays payment schedule milestones.
     """
     data = load_contract(file_path)
-    today = pricing.get_current_date()
+    today = utils.get_current_date()
     pricing.calculate_milestone_amount(data)
     generate_pdf(data, milestone_to_bill, today)
 
@@ -74,7 +75,7 @@ def print_milestones(file_pointer, milestones_list):
                         print("[green]Billed[/green]")
                         if value
                         else print("[red]Not billed[/red]")
-                    )  # if billed = True
+                    )
         print()
 
 
@@ -93,11 +94,7 @@ def generate_pdf(contract_pointer, milestone_to_bill, today):
     templates_path = Path(__file__).parent / "templates"
     env = generator.create_jinja_environment(templates_path)
     template = generator.load_template(env, "index.html")
-    response = requests.get(
-        pricing.define_request(
-            pricing.get_cpi_base_date(contract_pointer), pricing.get_current_date()[:7]
-        )
-    )
+    response = requests.get(pricing.define_request(contract_pointer))
     cpi_data = response.json()
     final_html = generator.render_final_html(
         template,
@@ -114,13 +111,24 @@ def generate_pdf(contract_pointer, milestone_to_bill, today):
         dateToday=today,
         address=contract_pointer["address"],
         currency=contract_pointer["currency"],
-        contractAmount=pricing.format_num_2dec(contract_pointer["contractAmount"]),
+        contractAmount=utils.format_num_2dec(contract_pointer["contractAmount"]),
         paymentSchedule=contract_pointer["paymentSchedule"],
         milestoneToBill=milestone_to_bill,
         baseMonth=pricing.get_cpi_base_date(contract_pointer),
         currentMonth=today[:7],
-        cpiVariation=pricing.format_num_2dec(pricing.get_cpi_variation(cpi_data)),
+        cpiVariation=utils.format_num_2dec(pricing.get_cpi_variation(cpi_data)),
+        adjustmentAmount=utils.format_num_2dec(
+            pricing.calculate_adjustment_amount(
+                contract_pointer, milestone_to_bill, cpi_data
+            )
+        ),
+        adjustedSubtotal=utils.format_num_2dec(
+            pricing.calculate_adjusted_subtotal(
+                contract_pointer, milestone_to_bill, cpi_data
+            )
+        ),
     )
+
     pdf_name = generator.define_pdf_name(
         contract_pointer["contractNumber"], contract_pointer["contractTitle"], today
     )
