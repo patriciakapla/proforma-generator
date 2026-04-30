@@ -40,10 +40,7 @@
         <h2 class="title">{{contractTitle}}</h2>
         <span class="details">Contract number: {{contractNumber}}</span>
         <span class="details">Proposal &#8470; {{proposalNumber}}</span>
-        <span class="details">
-          Proposal date: {% for key, value in proposalDate.items() %} {{value}}
-          {% endfor %}
-        </span>
+        <span class="details"> Proposal date: {{proposalDate}} </span>
         <span class="details">Proforma issue date: {{dateToday}}</span>
       </div>
     </section>
@@ -90,19 +87,15 @@
         <div class="ipc-data-container">
           <div class="ipc-title-container">
             <p class="ipc-title">Base Month:</p>
-            <p class="ipc-title">Base month price index:</p>
-            <p class="ipc-title">Current month price index:</p>
+            <p class="ipc-title">Current Month:</p>
+            <p class="ipc-title">cpiVariation</p>
             <p class="ipc-title">Adjustment percentage:</p>
             <p class="ipc-title">Adjustment amount:</p>
           </div>
           <div class="ipc-detail-container">
-            <p class="ipc-detail">
-              {% for key, value in proposalDate.items() %} {{value}} {% endfor
-              %}
-            </p>
-            <p class="ipc-detail">REVIEW:{{baseIPC}}</p>
-            <p class="ipc-detail">REVIEW:{{currentIPC}}</p>
-            <p class="ipc-detail">REVIEW:{{ipcPercentage}}</p>
+            <p class="ipc-detail">{{baseMonth}}</p>
+            <p class="ipc-detail">{{currentMonth}}</p>
+            <p class="ipc-detail">{{cpiVariation}}</p>
             <p class="ipc-detail">REVIEW:{{adjustmentAmount}}</p>
           </div>
         </div>
@@ -139,8 +132,23 @@
     <section class="payment-instructions-section">
       <div class="bank">
         <p class="subheading">Bank account</p>
+        <p class="bank-details">Buffy Vampire Hunters INC</p>
+        <p class="bank-details">Bank: Watchers Council's Bank</p>
+        <p class="bank-details">Account &#8470;: 555-0101</p>
+        <p class="bank-details">SWIFT: SLYRUS33SUN</p>
       </div>
-      <div class="instructions"></div>
+      <div class="instructions">
+        <p class="instruction-text">
+          ¹ Payment is due within 10 business days from final invoice issue
+          date.
+        </p>
+        <p class="instruction-text">
+          ² A 2% monthly late fee applies to overdue balances.
+        </p>
+        <p class="instruction-text">
+          ³ Submit payment receipt to payments@buffyvamphunters.com
+        </p>
+      </div>
     </section>
   </body>
 </html>

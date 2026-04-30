@@ -3,9 +3,9 @@ from typing import Annotated
 from rich import print
 import json_handling
 import template_generator as generator
-from datetime import date
 import pricing
-
+import requests
+from pathlib import Path
 
 app = typer.Typer()
 
@@ -54,9 +54,9 @@ def generate_proforma(
     - milestone_to_bill: optional argument - displays payment schedule milestones.
     """
     data = load_contract(file_path)
-    today = get_date()
+    today = pricing.get_current_date()
     pricing.calculate_milestone_amount(data)
-    generate_pdf(data, milestone_to_bill, today, ipc)
+    generate_pdf(data, milestone_to_bill, today)
 
 
 def print_milestones(file_pointer, milestones_list):
@@ -78,7 +78,7 @@ def print_milestones(file_pointer, milestones_list):
         print()
 
 
-def load_contract(file_path: str):
+def load_contract(file_path):
     data = json_handling.load_data(file_path)
     print(f"Selected contract: [yellow]{data["contractTitle"]}[/yellow]")
     return data
@@ -89,21 +89,21 @@ def get_milestones(file_pointer):
     return milestone_list
 
 
-def get_date():
-    today = date.today()
-    today_str = today.strftime("%Y-%m-%d")
-    return today_str
-
-
-def generate_pdf(contract_pointer, milestone_to_bill, today, ipc_pointer):
-
-    env = generator.create_jinja_environment("templates")
+def generate_pdf(contract_pointer, milestone_to_bill, today):
+    templates_path = Path(__file__).parent / "templates"
+    env = generator.create_jinja_environment(templates_path)
     template = generator.load_template(env, "index.html")
+    response = requests.get(
+        pricing.define_request(
+            pricing.get_cpi_base_date(contract_pointer), pricing.get_current_date()[:7]
+        )
+    )
+    cpi_data = response.json()
     final_html = generator.render_final_html(
         template,
         milestone_to_bill,
+        templates_path,
         # variables to be inserted in HTML
-        base_templates_url="./templates/",
         contractNumber=contract_pointer["contractNumber"],
         contractTitle=contract_pointer["contractTitle"],
         clientName=contract_pointer["clientName"],
@@ -114,21 +114,18 @@ def generate_pdf(contract_pointer, milestone_to_bill, today, ipc_pointer):
         dateToday=today,
         address=contract_pointer["address"],
         currency=contract_pointer["currency"],
-        contractAmount=pricing.format_price(contract_pointer["contractAmount"]),
+        contractAmount=pricing.format_num_2dec(contract_pointer["contractAmount"]),
         paymentSchedule=contract_pointer["paymentSchedule"],
         milestoneToBill=milestone_to_bill,
-        baseMonth=pricing.get_ipc_base_month(contract_pointer),
-        baseIPC=pricing.format_index(
-            pricing.get_base_ipc_index(contract_pointer, ipc_pointer)
-        ),
+        baseMonth=pricing.get_cpi_base_date(contract_pointer),
+        currentMonth=today[:7],
+        cpiVariation=pricing.format_num_2dec(pricing.get_cpi_variation(cpi_data)),
     )
     pdf_name = generator.define_pdf_name(
         contract_pointer["contractNumber"], contract_pointer["contractTitle"], today
     )
     generator.write_pdf(final_html, pdf_name)
 
-
-ipc = json_handling.load_data("ipc.json")
 
 if __name__ == "__main__":
     app()
