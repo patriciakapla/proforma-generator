@@ -52,7 +52,7 @@
             >Contract amount
             <span style="font-size: 0.8rem">({{currency}}) </span></span
           >
-          <h2 class="title">${{contractAmount}}</h2>
+          <h2 class="title">$ {{contractAmount}}</h2>
         </div>
       </div>
       <div class="table">
@@ -74,7 +74,7 @@
             {%elif key == "percentage"%}
             <p class="percentage">{{value}}%</p>
             {%elif key == "amount"%}
-            <p class="amount">${{value}}</p>
+            <p class="amount">$ {{value}}</p>
             {%else%}{%endif%} {% endfor %}
           </div>
           {% endfor %}
@@ -95,7 +95,7 @@
             <p class="ipc-detail">{{baseMonth}}</p>
             <p class="ipc-detail">{{currentMonth}}</p>
             <p class="ipc-detail">{{cpiVariation}}</p>
-            <p class="ipc-detail">${{adjustmentAmount}}</p>
+            <p class="ipc-detail">$ {{adjustmentAmount}}</p>
           </div>
         </div>
         <span class="ipc-disclaimer"
@@ -106,16 +106,16 @@
         <div class="subtotal-container">
           <div class="subtotal-title-container">
             <p class="subtotal-title">Subtotal:</p>
-            <p class="subtotal-title">CPI adjustment:</p>
+            <p class="subtotal-title">Adjustment:</p>
             <p class="subtotal-title highlight">Adjusted subtotal:</p>
             <p class="subtotal-title">Tax(21%):</p>
           </div>
           <div class="subtotal-detail-container">
             <p class="subtotal-detail">
-              {{paymentSchedule[milestoneToBill]["amount"]}}
+              $ {{paymentSchedule[milestoneToBill]["amount"]}}
             </p>
-            <p class="subtotal-detail">{{adjustmentAmount}}</p>
-            <p class="subtotal-detail highlight">{{adjustedSubtotal}}</p>
+            <p class="subtotal-detail">$ {{adjustmentAmount}}</p>
+            <p class="subtotal-detail highlight">$ {{adjustedSubtotal}}</p>
             <p class="subtotal-detail">REVIEW:{{taxAmount}}</p>
           </div>
         </div>

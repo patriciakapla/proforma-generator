@@ -7,10 +7,8 @@ def load_data(file_route: str):
     return data
 
 
-def update_billing_status(file_pointer, selected_milestone):
-    file_pointer["paymentSchedule"][selected_milestone][
-        "billed"
-    ] = True  # REVIEW: hardcoded True
+def update_billing_status(file_pointer, selected_milestone, billing_status: bool):
+    file_pointer["paymentSchedule"][selected_milestone]["billed"] = billing_status
     return file_pointer
 
 

@@ -30,7 +30,7 @@ def get_contract_date(contract_pointer):
 
 
 def define_request(contract_pointer):
-    return f"https://api.argly.com.ar/api/ipc/range?desde={get_cpi_base_date(contract_pointer)}&hasta={utils.get_current_date()[:7]}"
+    return f"https://api.argly.com.ar/api/ipc/range?desde={get_cpi_base_date(contract_pointer)}&hasta={utils.get_current_date("%Y-%m")}"
 
 
 # Getting CPI data
