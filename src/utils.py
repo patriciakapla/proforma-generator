@@ -1,5 +1,6 @@
 from datetime import date
 import pricing
+from rich import print
 
 # Formatting
 

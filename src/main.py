@@ -23,10 +23,9 @@ def display_milestones(
         ),
     ],
 ):
-
     data = json_handling.load_data(file_path)
+    print(f"Selected contract: [yellow]{data["contractTitle"]}[/yellow]")
     milestone_list = utils.get_milestones(data)
-    print(utils.get_milestones(data))
     print()
     utils.print_milestones(data, milestone_list)
 
