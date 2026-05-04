@@ -1,10 +1,9 @@
 import typer
 from typing import Annotated
-from rich import print
 import json_handling
 import template_generator as generator
-import pricing
-import utils
+from pathlib import Path
+from rich import print
 
 app = typer.Typer()
 
@@ -22,12 +21,11 @@ def display_milestones(
             help="Path to the contract file to process for billing",
         ),
     ],
-):
-    data = json_handling.load_data(file_path)
-    print(f"Selected contract: [yellow]{data["contractTitle"]}[/yellow]")
-    milestone_list = utils.get_milestones(data)
-    print()
-    utils.print_milestones(data, milestone_list)
+) -> None:
+    fp = Path(file_path)
+    contract = json_handling.load_data(fp)
+    contract.print_contract()
+    contract.print_milestones()
 
 
 @app.command("gen")
@@ -44,17 +42,19 @@ def generate_proforma(
             help="Selects milestone to be billed",
         ),
     ],
-):
+) -> None:
+    # TODO: Apply logics to accept more than one milestone argument
     """
     Generates proforma from data in given json.
     Arguments:
     - file_path: required argument - path to json file with contract data
     - milestone_to_bill: optional argument - displays payment schedule milestones.
     """
-    data = json_handling.load_data(file_path)
-    print(f"Selected contract: [yellow]{data["contractTitle"]}[/yellow]")
-    pricing.calculate_milestone_amount(data)
-    generator.generate_pdf(data, milestone_to_bill)
+    fp = Path(file_path)
+    contract = json_handling.load_data(fp)
+    contract.print_contract()
+    contract.calculate_milestone_amount()
+    generator.generate_pdf(contract, milestone_to_bill)
 
 
 if __name__ == "__main__":

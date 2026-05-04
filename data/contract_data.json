@@ -1,5 +1,5 @@
 {
-  "contractNumber": 4321,
+  "contractID": 4321,
   "contractTitle": "Vampire hunt",
   "clientName": "Angel Investigations",
   "clientTaxID": 34566128642,
@@ -8,7 +8,7 @@
     "1st_line": "4121 Wilshire Blvd",
     "2nd_line": "Los Angeles, CA"
   },
-  "proposalNumber": 1234,
+  "proposalID": 1234,
   "proposalDate": {
     "year": 2026,
     "month": 1
@@ -20,25 +20,25 @@
       "description": "Upfront",
       "percentage": 20,
       "billed": true,
-      "amount": "2,000.00"
+      "amount": ""
     },
     {
       "description": "Vampire study",
       "percentage": 30,
       "billed": false,
-      "amount": "3,000.00"
+      "amount": ""
     },
     {
       "description": "Vampire hunt",
       "percentage": 30,
       "billed": false,
-      "amount": "3,000.00"
+      "amount": ""
     },
     {
       "description": "Report delivery",
       "percentage": 20,
       "billed": false,
-      "amount": "2,000.00"
+      "amount": ""
     }
   ]
 }
