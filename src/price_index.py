@@ -1,9 +1,9 @@
-from datetime import date
+# from datetime import date
 import utils
-from pathlib import Path
+
+# from pathlib import Path
 from contract import Contract
 import requests
-import json_handling
 
 # Getting Argly API price index data
 

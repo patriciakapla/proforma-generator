@@ -1,21 +1,21 @@
 {
-  "contractID": 4321,
-  "contractTitle": "Vampire hunt",
-  "clientName": "Angel Investigations",
-  "clientTaxID": 34566128642,
-  "clientProjectManager": "Mr. Angel",
+  "contract_id": 4321,
+  "title": "Vampire hunt",
+  "client": "Angel Investigations",
+  "client_tax_id": 34566128642,
+  "client_project_manager": "Mr. Angel",
   "address": {
     "1st_line": "4121 Wilshire Blvd",
     "2nd_line": "Los Angeles, CA"
   },
-  "proposalID": 1234,
-  "proposalDate": {
+  "proposal": 1234,
+  "proposal_date": {
     "year": 2026,
     "month": 1
   },
-  "contractAmount": 10000,
+  "amount": 10000,
   "currency": "USD",
-  "paymentSchedule": [
+  "payment_schedule": [
     {
       "description": "Upfront",
       "percentage": 20,

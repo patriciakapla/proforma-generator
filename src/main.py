@@ -4,6 +4,7 @@ import json_handling
 import template_generator as generator
 from pathlib import Path
 from rich import print
+from utils import validate_milestone
 
 app = typer.Typer()
 
@@ -36,7 +37,7 @@ def generate_proforma(
             help="Path to the contract file to process for billing",
         ),
     ],
-    milestone_to_bill: Annotated[
+    milestone: Annotated[
         int,
         typer.Argument(
             help="Selects milestone to be billed",
@@ -48,13 +49,15 @@ def generate_proforma(
     Generates proforma from data in given json.
     Arguments:
     - file_path: required argument - path to json file with contract data
-    - milestone_to_bill: optional argument - displays payment schedule milestones.
+    - milestone_to_bill: required argument - displays payment schedule milestones.
     """
+    milestone_index = milestone - 1
     fp = Path(file_path)
     contract = json_handling.load_data(fp)
-    contract.print_contract()
-    contract.calculate_milestone_amount()
-    generator.generate_pdf(contract, milestone_to_bill)
+    validate_milestone(milestone_index, contract)
+    json_handling.update_json(fp, contract)
+    contract.print_contract(milestone_index)
+    generator.generate_pdf(contract, milestone_index)
 
 
 if __name__ == "__main__":

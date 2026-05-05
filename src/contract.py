@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 import utils
 from rich import print
+from typing import TypedDict
+
+
+class PaymentScheduleMilestone(TypedDict):
+    description: str
+    percentage: int
+    billed: bool | None
+    amount: str
 
 
 @dataclass
@@ -15,32 +23,35 @@ class Contract:
     proposal_date: dict[str, int]
     amount: int
     currency: str
-    payment_schedule: list[dict[str, str | int | bool]]
+    payment_schedule: list[PaymentScheduleMilestone]
 
-    def print_contract(self) -> None:
+    def print_contract(self, milestone: int | None = None) -> None:
         print(f"Selected contract: [yellow]{self.title}[/yellow]")
+        if milestone:
+            print(
+                f"Selected milestone: [yellow]{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}[/yellow]"
+            )
 
     def print_milestones(self) -> None:
-        for i, milestone in enumerate(self.payment_schedule):
+        for i, _ in enumerate(self.payment_schedule):
             print(f"[bold yellow][{i+1}]: [/bold yellow]", sep="", end=" ")
-            for key, value in milestone.items():
-                match key:
-                    case "percentage":
-                        print(f"[default]{value}% - [/default]", sep="", end=" ")
-                    case "description":
-                        print(value)
-                    case "billed":
-                        (
-                            print("[green]Billed[/green]")
-                            if value
-                            else print("[red]Not billed[/red]")
-                        )
+            print(
+                f"[default]{self.payment_schedule[i]["percentage"]}% - [/default]",
+                sep="",
+                end=" ",
+            )
+            print(self.payment_schedule[i]["description"])
+            if self.payment_schedule[i]["amount"]:
+                print(self.payment_schedule[i]["amount"])
+            if self.payment_schedule[i]["billed"]:
+                print("[green]Billed[/green]")
+            else:
+                print("[red]Not billed[/red]")
             print()
 
-    def calculate_milestone_amount(self) -> Contract:
-        """
-        calculates the amount of all contract's milestones
-        """
+    def calculate_milestone_amount(
+        self,
+    ) -> Contract:
         for milestone in self.payment_schedule:
             if not milestone["amount"]:
                 multiplier = float(milestone["percentage"] * 0.01)
@@ -64,6 +75,3 @@ class Contract:
             base_year = self.proposal_date["year"]
             base_month = self.proposal_date["month"] - 1
         return f"{base_year}-{base_month}"
-
-    # def get_milestones(self) -> dict[str, str | int | bool]:
-    #  return [milestone for milestone in self.paymentSchedule]
