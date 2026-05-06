@@ -42,20 +42,23 @@ def calculate_cpi_variation(contract: Contract) -> float:
 # Calculating amounts
 
 
-def calculate_adjustment_amount(contract: Contract, milestone: int) -> float:
+def calculate_adjustment_amount(contract: Contract, milestones: list[int]) -> str:
     """Calculate the CPI adjustment amount for a contract milestone"""
-    original_amount = utils.format_string_to_float(
-        contract.payment_schedule[milestone]["amount"]
-    )
-    variation = calculate_cpi_variation(contract) / 100
-    adjustment_amount = original_amount * variation
-    return adjustment_amount
+    adjustment_list: list[float] = []
+    for milestone in milestones:
+        original_amount = utils.format_string_to_float(
+            contract.payment_schedule[milestone]["amount"]
+        )
+        variation = calculate_cpi_variation(contract) / 100
+        adjustment_amount = original_amount * variation
+        adjustment_list.append(adjustment_amount)
+    adjustment_amount = sum(adjustment_list)
+    return utils.format_num_2dec(adjustment_amount)
 
 
-def calculate_adjusted_subtotal(contract: Contract, milestone: int) -> float:
+def calculate_adjusted_subtotal(contract: Contract, milestones: list[int]) -> str:
     """Calculate the milestone amount after CPI adjustment"""
-    original_amount = utils.format_string_to_float(
-        contract.payment_schedule[milestone]["amount"]
-    )
-    adjustment_amount = calculate_adjustment_amount(contract, milestone)
-    return adjustment_amount + original_amount
+    original_amount = contract.calculate_subtotal(milestones)
+    adjustment_amount = float(calculate_adjustment_amount(contract, milestones))
+    total_amount = adjustment_amount + original_amount
+    return utils.format_num_2dec(total_amount)

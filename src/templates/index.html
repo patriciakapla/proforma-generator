@@ -67,7 +67,7 @@
         <div class="table-body">
           {% for item in paymentSchedule %}
           <div
-            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if loop.index == milestoneToBill else ''}}"
+            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if loop.index in milestoneToBill else ''}}"
           >
             {% for key, value in item.items() %} {%if key == "description"%}
             <p class="milestone">{{value}}</p>
@@ -96,6 +96,7 @@
             <p class="ipc-detail">{{currentMonth}}</p>
             <p class="ipc-detail">{{cpiVariation}}</p>
             <p class="ipc-detail">$ {{adjustmentAmount}}</p>
+            <!--TODO: CALCULATE ADJUSTMENT AMOUNT-->
           </div>
         </div>
         <span class="ipc-disclaimer"
@@ -112,10 +113,13 @@
           </div>
           <div class="subtotal-detail-container">
             <p class="subtotal-detail">
-              $ {{paymentSchedule[milestoneToBill]["amount"]}}
+              $ {{subtotal_amount}}
+              <!--TODO: CALCULATE SUBTOTAL AMOUNT-->
             </p>
             <p class="subtotal-detail">$ {{adjustmentAmount}}</p>
+            <!--TODO: CALCULATE ADJUSTMENT AMOUNT-->
             <p class="subtotal-detail highlight">$ {{adjustedSubtotal}}</p>
+            <!--TODO: CALCULATE ADJUSTMENT AMOUNT-->
             <p class="subtotal-detail">REVIEW:{{taxAmount}}</p>
           </div>
         </div>

@@ -25,12 +25,13 @@ class Contract:
     currency: str
     payment_schedule: list[PaymentScheduleMilestone]
 
-    def print_contract(self, milestone: int | None = None) -> None:
+    def print_contract(self, milestones: list[int]) -> None:
         print(f"Selected contract: [yellow]{self.title}[/yellow]")
-        if milestone:
-            print(
-                f"Selected milestone: [yellow]{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}[/yellow]"
-            )
+        for milestone in milestones:
+            if milestone:
+                print(
+                    f"Selected milestone: [yellow]{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}[/yellow]"
+                )
 
     def print_milestones(self) -> None:
         for i, _ in enumerate(self.payment_schedule):
@@ -75,3 +76,13 @@ class Contract:
             base_year = self.proposal_date["year"]
             base_month = self.proposal_date["month"] - 1
         return f"{base_year}-{base_month}"
+
+    def calculate_subtotal(
+        self, milestones: list[int]
+    ) -> float:  # TODO: FORMAT FLOAT 2decimals
+        subtotal = 0
+        for milestone in milestones:
+
+            amount = self.payment_schedule[milestone]["amount"].replace(",", "")
+            subtotal += float(amount)
+        return subtotal

@@ -18,12 +18,12 @@ def load_template(env: Environment, template_path: str) -> Template:
 
 def render_final_html(
     template: Template,
-    being_billed: int,
+    # being_billed: list[int],
     base_templates_url: Path,
     **contract_data: object
 ) -> HTML:
     final_html = HTML(
-        string=template.render(beingBilled=being_billed, **contract_data),
+        string=template.render(**contract_data),
         base_url=str(base_templates_url),
     )
     return final_html
@@ -46,13 +46,12 @@ def write_pdf(final_html: HTML, pdf_name: str) -> None:
     final_html.write_pdf(str(pdf_path))  # pyright: ignore[reportUnknownMemberType]
 
 
-def generate_pdf(contract: Contract, milestone: int) -> None:
+def generate_pdf(contract: Contract, milestones: list[int]) -> None:
     templates_path = Path(__file__).parent / "templates"
     env = create_jinja_environment(templates_path)
     template = load_template(env, "index.html")
     final_html = render_final_html(
         template,
-        milestone,
         templates_path,
         # variables to be inserted in HTML
         contractNumber=contract.contract_id,
@@ -67,17 +66,18 @@ def generate_pdf(contract: Contract, milestone: int) -> None:
         currency=contract.currency,
         contractAmount=utils.format_num_2dec(contract.amount),
         paymentSchedule=contract.payment_schedule,
-        milestoneToBill=milestone,
+        milestoneToBill=milestones,
         baseMonth=contract.get_cpi_base_date(),
         currentMonth=utils.today("%Y-%m"),
         cpiVariation=utils.format_num_2dec(
             contract_adjustments.calculate_cpi_variation(contract)
         ),
-        adjustmentAmount=utils.format_num_2dec(
-            contract_adjustments.calculate_adjustment_amount(contract, milestone)
+        subtotal_amount=contract.calculate_subtotal(milestones),
+        adjustmentAmount=contract_adjustments.calculate_adjustment_amount(
+            contract, milestones
         ),
-        adjustedSubtotal=utils.format_num_2dec(
-            contract_adjustments.calculate_adjusted_subtotal(contract, milestone)
+        adjustedSubtotal=contract_adjustments.calculate_adjusted_subtotal(
+            contract, milestones
         ),
     )
     pdf_name = define_pdf_name(contract)

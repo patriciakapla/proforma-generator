@@ -26,12 +26,17 @@ def today(date_format: str) -> str:
 # Validate milestone
 
 
-def validate_milestone(milestone: int, contract: Contract) -> None:
+def validate_milestones(milestones: list[int], contract: Contract) -> None:
     from typer import Exit
 
     contract_milestones = len(contract.payment_schedule)
-    if milestone not in range(contract_milestones):
-        print(
-            f"Milestone out of range. Selected contract has {contract_milestones} milestones."
-        )
-        raise Exit()
+    for milestone in milestones:
+        if milestone not in range(contract_milestones):
+            print(
+                f"Milestone out of range. Selected contract has {contract_milestones} milestones."
+            )
+            raise Exit()
+
+
+def milestones_to_indexes(milestones: list[int]) -> list[int]:
+    return [milestone - 1 for milestone in milestones]
