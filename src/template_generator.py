@@ -2,7 +2,7 @@ from jinja2 import Environment, FileSystemLoader, Template
 from weasyprint import HTML  # pyright: ignore[reportMissingTypeStubs]
 from pathlib import Path
 import utils
-import price_index
+import contract_adjustments
 from contract import Contract
 
 
@@ -71,13 +71,13 @@ def generate_pdf(contract: Contract, milestone: int) -> None:
         baseMonth=contract.get_cpi_base_date(),
         currentMonth=utils.today("%Y-%m"),
         cpiVariation=utils.format_num_2dec(
-            price_index.calculate_cpi_variation(contract)
+            contract_adjustments.calculate_cpi_variation(contract)
         ),
         adjustmentAmount=utils.format_num_2dec(
-            price_index.calculate_adjustment_amount(contract, milestone)
+            contract_adjustments.calculate_adjustment_amount(contract, milestone)
         ),
         adjustedSubtotal=utils.format_num_2dec(
-            price_index.calculate_adjusted_subtotal(contract, milestone)
+            contract_adjustments.calculate_adjusted_subtotal(contract, milestone)
         ),
     )
     pdf_name = define_pdf_name(contract)
