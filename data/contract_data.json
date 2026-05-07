@@ -19,26 +19,22 @@
     {
       "description": "Upfront",
       "percentage": 20,
-      "billed": true,
-      "amount": "2,000.00"
+      "billed": true
     },
     {
       "description": "Vampire study",
       "percentage": 30,
-      "billed": false,
-      "amount": "3,000.00"
+      "billed": false
     },
     {
       "description": "Vampire hunt",
       "percentage": 30,
-      "billed": false,
-      "amount": "3,000.00"
+      "billed": false
     },
     {
       "description": "Report delivery",
       "percentage": 20,
-      "billed": false,
-      "amount": "2,000.00"
+      "billed": false
     }
   ]
 }

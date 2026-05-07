@@ -25,23 +25,23 @@
     <section class="client-section">
       <div class="client">
         <span class="subheading">Client Details</span>
-        <h2 class="title">{{clientName}}</h2>
+        <h2 class="title">{{client}}</h2>
 
         <div class="details-container">
-          <span class="details"> Attn. {{clientProjectManager}} </span>
+          <span class="details"> Attn. {{client_project_manager}} </span>
           {% for key, value in address.items() %}
           <span class="details">{{value}}</span>
           {% endfor %}
-          <span class="details">Tax ID: {{clientTaxID}}</span>
+          <span class="details">Tax ID: {{client_tax_id}}</span>
         </div>
       </div>
       <div class="project">
         <span class="subheading">Project Details</span>
-        <h2 class="title">{{contractTitle}}</h2>
-        <span class="details">Contract number: {{contractNumber}}</span>
-        <span class="details">Proposal &#8470; {{proposalID}}</span>
-        <span class="details"> Proposal date: {{proposalDate}} </span>
-        <span class="details">Proforma issue date: {{dateToday}}</span>
+        <h2 class="title">{{title}}</h2>
+        <span class="details">Contract number: {{contract_id}}</span>
+        <span class="details">Proposal &#8470; {{proposal}}</span>
+        <span class="details"> Proposal date: {{proposal_date}} </span>
+        <span class="details">Proforma issue date: {{date_today}}</span>
       </div>
     </section>
     <section class="payment-section">
@@ -52,7 +52,7 @@
             >Contract amount
             <span style="font-size: 0.8rem">({{currency}}) </span></span
           >
-          <h2 class="title">$ {{contractAmount}}</h2>
+          <h2 class="title">$ {{contract_amount}}</h2>
         </div>
       </div>
       <div class="table">
@@ -65,9 +65,9 @@
           </span>
         </div>
         <div class="table-body">
-          {% for item in paymentSchedule %}
+          {% for item in payment_schedule %}
           <div
-            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if loop.index in milestoneToBill else ''}}"
+            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if loop.index in milestone_to_bill else ''}}"
           >
             {% for key, value in item.items() %} {%if key == "description"%}
             <p class="milestone">{{value}}</p>
@@ -92,11 +92,10 @@
             <p class="ipc-title">Adjustment amount:</p>
           </div>
           <div class="ipc-detail-container">
-            <p class="ipc-detail">{{baseMonth}}</p>
-            <p class="ipc-detail">{{currentMonth}}</p>
-            <p class="ipc-detail">{{cpiVariation}}</p>
-            <p class="ipc-detail">$ {{adjustmentAmount}}</p>
-            <!--TODO: CALCULATE ADJUSTMENT AMOUNT-->
+            <p class="ipc-detail">{{base_month}}</p>
+            <p class="ipc-detail">{{current_month}}</p>
+            <p class="ipc-detail">{{cpi_variation}}</p>
+            <p class="ipc-detail">$ {{adjustment_amount}}</p>
           </div>
         </div>
         <span class="ipc-disclaimer"
@@ -112,14 +111,9 @@
             <p class="subtotal-title">Tax(21%):</p>
           </div>
           <div class="subtotal-detail-container">
-            <p class="subtotal-detail">
-              $ {{subtotal_amount}}
-              <!--TODO: CALCULATE SUBTOTAL AMOUNT-->
-            </p>
-            <p class="subtotal-detail">$ {{adjustmentAmount}}</p>
-            <!--TODO: CALCULATE ADJUSTMENT AMOUNT-->
-            <p class="subtotal-detail highlight">$ {{adjustedSubtotal}}</p>
-            <!--TODO: CALCULATE ADJUSTMENT AMOUNT-->
+            <p class="subtotal-detail">$ {{subtotal_amount}}</p>
+            <p class="subtotal-detail">$ {{adjustment_amount}}</p>
+            <p class="subtotal-detail highlight">$ {{adjusted_subtotal}}</p>
             <p class="subtotal-detail">REVIEW:{{taxAmount}}</p>
           </div>
         </div>

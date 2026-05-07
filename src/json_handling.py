@@ -19,7 +19,7 @@ def load_data(file_path: Path):
             address=data["address"],
             proposal=data["proposal"],
             proposal_date=data["proposal_date"],
-            amount=data["amount"],
+            contract_amount=data["amount"],
             currency=data["currency"],
             payment_schedule=data["payment_schedule"],
         )
@@ -33,10 +33,6 @@ def update_json(
     milestone: int | None = None,
     billed: bool | None = None,
 ) -> None:
-    if not contract.payment_schedule[0]["amount"]:
-        contract.calculate_milestone_amount()
-        with open(file_path, "w", encoding="utf8") as file:
-            json.dump(contract.__dict__, file, indent=2)
     if milestone:
         contract.payment_schedule[milestone]["billed"] = billed
         with open(file_path, "w", encoding="utf8") as file:

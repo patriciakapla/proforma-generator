@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-import utils
 from rich import print
 from typing import TypedDict
 
@@ -8,7 +7,7 @@ class PaymentScheduleMilestone(TypedDict):
     description: str
     percentage: int
     billed: bool | None
-    amount: str
+    amount: float
 
 
 @dataclass
@@ -21,7 +20,7 @@ class Contract:
     address: dict[str, str]
     proposal: int
     proposal_date: dict[str, int]
-    amount: int
+    contract_amount: int
     currency: str
     payment_schedule: list[PaymentScheduleMilestone]
 
@@ -42,8 +41,8 @@ class Contract:
                 end=" ",
             )
             print(self.payment_schedule[i]["description"])
-            if self.payment_schedule[i]["amount"]:
-                print(self.payment_schedule[i]["amount"])
+            # if self.payment_schedule[i]["amount"]:
+            #     print(self.payment_schedule[i]["amount"])
             if self.payment_schedule[i]["billed"]:
                 print("[green]Billed[/green]")
             else:
@@ -52,13 +51,13 @@ class Contract:
 
     def calculate_milestone_amount(
         self,
-    ) -> Contract:
+    ) -> list[float]:
+        milestone_amounts: list[float] = []
         for milestone in self.payment_schedule:
-            if not milestone["amount"]:
-                multiplier = float(milestone["percentage"] * 0.01)
-                amount = self.amount * multiplier
-                milestone["amount"] = utils.format_num_2dec(amount)
-        return self
+            multiplier = float(milestone["percentage"] * 0.01)
+            amount = self.contract_amount * multiplier
+            milestone_amounts.append(amount)
+        return milestone_amounts
 
     def get_contract_date(self) -> str:
         """gets contract date from given json"""
@@ -77,12 +76,15 @@ class Contract:
             base_month = self.proposal_date["month"] - 1
         return f"{base_year}-{base_month}"
 
-    def calculate_subtotal(
-        self, milestones: list[int]
-    ) -> float:  # TODO: FORMAT FLOAT 2decimals
-        subtotal = 0
-        for milestone in milestones:
-
-            amount = self.payment_schedule[milestone]["amount"].replace(",", "")
-            subtotal += float(amount)
-        return subtotal
+    def payment_schedule_with_amount(self) -> list[PaymentScheduleMilestone]:
+        updated_payment_schedule: list[PaymentScheduleMilestone] = []
+        for i, milestone in enumerate(self.payment_schedule):
+            updated_payment_schedule.append(
+                {
+                    "description": milestone["description"],
+                    "percentage": milestone["percentage"],
+                    "billed": milestone["billed"],
+                    "amount": self.calculate_milestone_amount()[i],
+                }
+            )
+        return updated_payment_schedule

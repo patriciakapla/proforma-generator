@@ -5,8 +5,6 @@ from contract import Contract
 import requests
 from typing import TypedDict
 
-# Getting Argly API price index data
-
 
 class CPI_data(TypedDict):
     mes: int
@@ -37,28 +35,3 @@ def calculate_cpi_variation(contract: Contract) -> float:
         index *= 1 + rate
     accumulated_variation = index - 100
     return accumulated_variation
-
-
-# Calculating amounts
-
-
-def calculate_adjustment_amount(contract: Contract, milestones: list[int]) -> str:
-    """Calculate the CPI adjustment amount for a contract milestone"""
-    adjustment_list: list[float] = []
-    for milestone in milestones:
-        original_amount = utils.format_string_to_float(
-            contract.payment_schedule[milestone]["amount"]
-        )
-        variation = calculate_cpi_variation(contract) / 100
-        adjustment_amount = original_amount * variation
-        adjustment_list.append(adjustment_amount)
-    adjustment_amount = sum(adjustment_list)
-    return utils.format_num_2dec(adjustment_amount)
-
-
-def calculate_adjusted_subtotal(contract: Contract, milestones: list[int]) -> str:
-    """Calculate the milestone amount after CPI adjustment"""
-    original_amount = contract.calculate_subtotal(milestones)
-    adjustment_amount = float(calculate_adjustment_amount(contract, milestones))
-    total_amount = adjustment_amount + original_amount
-    return utils.format_num_2dec(total_amount)

@@ -5,6 +5,7 @@ import template_generator as generator
 from pathlib import Path
 from rich import print
 from utils import validate_milestones, milestones_to_indexes
+import data_dict
 
 app = typer.Typer()
 
@@ -44,20 +45,19 @@ def generate_proforma(
         ),
     ],
 ) -> None:
-    # TODO: Apply logics to accept more than one milestone argument
     """
-    Generates proforma from data in given json.
+    Generate a proforma invoice from contract data in a JSON file.
     Arguments:
-    - file_path: required argument - path to json file with contract data
-    - milestone_to_bill: required argument - displays payment schedule milestones.
+    - file_path: Path to the JSON file containing contract data.
+    - milestones: Milestones to include in the billing.
     """
     milestones_indexes = milestones_to_indexes(milestones)
     fp = Path(file_path)
     contract = json_handling.load_data(fp)
     validate_milestones(milestones_indexes, contract)
-    json_handling.update_json(fp, contract)
+    calculated_payload = data_dict.generate_calculated_data(contract, milestones)
     contract.print_contract(milestones_indexes)
-    generator.generate_pdf(contract, milestones_indexes)
+    generator.generate_pdf(calculated_payload, milestones_indexes)
 
 
 if __name__ == "__main__":
