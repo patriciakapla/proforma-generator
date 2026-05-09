@@ -66,14 +66,14 @@
         <div class="table-body">
           {% for i, item in enumerate(payment_schedule) %}
           <div
-            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if i+1 in milestone_to_bill else ''}}"
+            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if loop.index in milestone_to_bill else ''}}"
           >
             {% for key, value in item.items() %} {%if key == "description"%}
             <p class="milestone">{{value}}</p>
             {%elif key == "percentage"%}
             <p class="percentage">{{value}}%</p>
             {%elif key == "amount"%}
-            <p class="amount">${{milestone_amounts[i]}}</p>
+            <p class="amount">{{milestone_amounts[i]}}</p>
             {%else%}{%endif%} {% endfor %}
           </div>
           {% endfor %}
@@ -121,7 +121,7 @@
             <p class="total-text highlight">Total amount due</p>
             <p class="total-text">({{currency}})</p>
           </div>
-          <p class="total-amount">xxxx</p>
+          <p class="total-amount">{{total_amount}}</p>
         </div>
       </div>
     </section>

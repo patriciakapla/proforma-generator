@@ -5,16 +5,21 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from contract import Contract
 
-# Formatting
+from decimal import Decimal, ROUND_HALF_UP
+
+DECIMALS = Decimal("0.01")
 
 
-def format_num_2dec(number: int | float) -> str:
-    return f"{number:,.2f}"
+def two_decimals(value: Decimal) -> Decimal:
+    return Decimal(value).quantize(DECIMALS, rounding=ROUND_HALF_UP)
 
 
-def format_string_to_float(value: str) -> float:
-    new_value = value.replace(",", "")
-    return float(new_value)
+def money(value: Decimal, currency: str) -> str:
+    return f"{currency} {value:,f}"
+
+
+def percentage(value: Decimal) -> str:
+    return f"{value}%"
 
 
 def format_date_m_y(original_date: str) -> str:
@@ -33,8 +38,9 @@ def today(date_format: str) -> str:
 def validate_milestones(milestones: list[int], contract: Contract) -> None:
     from typer import Exit
 
+    milestones_indexes = milestones_to_indexes(milestones)
     contract_milestones = len(contract.payment_schedule)
-    for milestone in milestones:
+    for milestone in milestones_indexes:
         if milestone not in range(contract_milestones):
             print(
                 f"Milestone out of range. Selected contract has {contract_milestones} milestones."

@@ -4,13 +4,14 @@ import utils
 from contract import Contract
 import requests
 from typing import TypedDict
+from decimal import Decimal
 
 
 class CPI_data(TypedDict):
     mes: int
     anio: int
     nombre_mes: str
-    valor: float
+    valor: Decimal
 
 
 def build_request_url(contract: Contract) -> str:
@@ -25,12 +26,12 @@ def fetch_cpi_data(contract: Contract) -> list[CPI_data]:
     return [*cpi_data["data"]]
 
 
-def calculate_cpi_variation(contract: Contract) -> float:
+def calculate_cpi_variation(contract: Contract) -> Decimal:
     """Calculate accumulated INDEC CPI variation using a base index of 100"""
-    index = 100
+    index = Decimal("100")
     cpi_data = fetch_cpi_data(contract)
     for item in cpi_data[1:]:
-        monthly_variation = item["valor"]
+        monthly_variation = Decimal(str(item["valor"]))
         rate = monthly_variation / 100
         index *= 1 + rate
     accumulated_variation = index - 100

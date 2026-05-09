@@ -1,9 +1,10 @@
 from contract import Contract, PaymentScheduleMilestone
-from utils import today, format_date_m_y, format_num_2dec
+from utils import today, format_date_m_y, two_decimals, money, percentage
 import price_index
 import billing
 from typing import TypedDict
 from string import capwords
+from decimal import Decimal
 
 
 class CalculatedData(TypedDict):
@@ -15,19 +16,20 @@ class CalculatedData(TypedDict):
     address: dict[str, str]
     proposal: int
     proposal_date: str
-    contract_amount: int
+    contract_amount: Decimal
     currency: str
     payment_schedule: list[PaymentScheduleMilestone]
-    milestone_amounts: list[float]
+    milestone_amounts: list[Decimal]
     date_today: str
     milestone_to_bill: list[int]
     base_month: str
     current_month: str
-    cpi_variation: float
-    subtotal_amount: float
-    adjustment_amount: float
-    adjusted_subtotal: float
-    tax_amount: float
+    cpi_variation: Decimal
+    subtotal_amount: Decimal
+    adjustment_amount: Decimal
+    adjusted_subtotal: Decimal
+    tax_amount: Decimal
+    total_amount: Decimal
 
 
 class NormalizedData(TypedDict):
@@ -52,6 +54,7 @@ class NormalizedData(TypedDict):
     adjustment_amount: str
     adjusted_subtotal: str
     tax_amount: str
+    total_amount: str
 
 
 def generate_calculated_data(
@@ -81,7 +84,7 @@ def generate_calculated_data(
         "address": contract.address,
         "proposal": contract.proposal,
         "proposal_date": contract.get_contract_date(),
-        "contract_amount": contract.contract_amount,
+        "contract_amount": Decimal(contract.contract_amount),
         "currency": contract.currency,
         "payment_schedule": contract.payment_schedule_with_amount(),
         "milestone_amounts": contract.calculate_milestone_amount(),
@@ -94,6 +97,7 @@ def generate_calculated_data(
         "adjustment_amount": adjustment_amount,
         "adjusted_subtotal": adjusted_subtotal,
         "tax_amount": tax_amount,
+        "total_amount": billing.calculate_total_amount(adjusted_subtotal, tax_amount),
     }
 
 
@@ -104,7 +108,7 @@ def normalize_data(calculated_data: CalculatedData) -> NormalizedData:
             {capwords(calculated_data['address']["country"])}"
 
     f_milestone_amounts = [
-        f"{format_num_2dec(milestone)}"
+        f"{money(two_decimals(milestone), "$")}"
         for milestone in calculated_data["milestone_amounts"]
     ]
 
@@ -118,26 +122,21 @@ def normalize_data(calculated_data: CalculatedData) -> NormalizedData:
         "address2": address2,
         "proposal": calculated_data["proposal"],
         "proposal_date": format_date_m_y(calculated_data["proposal_date"]),
-        "contract_amount": f"$ {format_num_2dec(calculated_data["contract_amount"])}",
+        "contract_amount": f"$ {two_decimals(calculated_data["contract_amount"])}",
         "currency": calculated_data["currency"].upper(),
         "milestone_amounts": f_milestone_amounts,
         "payment_schedule": calculated_data["payment_schedule"],
         "date_today": calculated_data["date_today"],
         "base_month": format_date_m_y(calculated_data["base_month"]),
         "current_month": today("%b/%Y"),
-        "cpi_variation": f"{format_num_2dec(calculated_data["cpi_variation"])}%",
-        "subtotal_amount": f"$ {format_num_2dec(calculated_data["subtotal_amount"])}",
-        "adjustment_amount": f"$ {format_num_2dec(calculated_data["adjustment_amount"])}",
-        "adjusted_subtotal": f"$ {format_num_2dec(calculated_data["adjusted_subtotal"])}",
-        "tax_amount": f"$ {format_num_2dec(calculated_data["tax_amount"])}",
+        "cpi_variation": percentage(two_decimals(calculated_data["cpi_variation"])),
+        "subtotal_amount": money(two_decimals(calculated_data["subtotal_amount"]), "$"),
+        "adjustment_amount": money(
+            two_decimals(calculated_data["adjustment_amount"]), "$"
+        ),
+        "adjusted_subtotal": money(
+            two_decimals(calculated_data["adjusted_subtotal"]), "$"
+        ),
+        "tax_amount": money(two_decimals(calculated_data["tax_amount"]), "$"),
+        "total_amount": money(two_decimals(calculated_data["total_amount"]), "$"),
     }
-
-
-# testing
-def printdata(data: CalculatedData):
-    print(*data, sep="\n")
-
-
-def printdatatype(data: CalculatedData):
-    for k, v in data.items():
-        print(f"{k}: {v}\n")

@@ -1,13 +1,15 @@
 from dataclasses import dataclass
 from rich import print
 from typing import TypedDict
+from decimal import Decimal
+from utils import milestones_to_indexes
 
 
 class PaymentScheduleMilestone(TypedDict):
     description: str
     percentage: int
     billed: bool | None
-    amount: float
+    amount: Decimal
 
 
 @dataclass
@@ -25,8 +27,9 @@ class Contract:
     payment_schedule: list[PaymentScheduleMilestone]
 
     def print_contract(self, milestones: list[int]) -> None:
+        milestones_indexes = milestones_to_indexes(milestones)
         print(f"Selected contract: [yellow]{self.title}[/yellow]")
-        for milestone in milestones:
+        for milestone in milestones_indexes:
             if milestone:  # if called from generate_proforma command
                 print(
                     f"Selected milestone: [yellow]{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}[/yellow]"
@@ -49,10 +52,10 @@ class Contract:
 
     def calculate_milestone_amount(
         self,
-    ) -> list[float]:
-        milestone_amounts: list[float] = []
+    ) -> list[Decimal]:
+        milestone_amounts: list[Decimal] = []
         for milestone in self.payment_schedule:
-            multiplier = float(milestone["percentage"] * 0.01)
+            multiplier = Decimal(str(milestone["percentage"])) * Decimal("0.01")
             amount = self.contract_amount * multiplier
             milestone_amounts.append(amount)
         return milestone_amounts
@@ -79,9 +82,7 @@ class Contract:
                     "description": milestone["description"],
                     "percentage": milestone["percentage"],
                     "billed": milestone["billed"],
-                    "amount": self.calculate_milestone_amount()[
-                        i
-                    ],  # TODO: figure how to normalize amount
+                    "amount": self.calculate_milestone_amount()[i],
                 }
             )
         return updated_payment_schedule
