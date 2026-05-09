@@ -11,17 +11,17 @@ def load_data(file_path: Path):
         with open(file_path, "r", encoding="utf8") as file:
             data = json.load(file)
         return Contract(
-            contract_id=data["contract_id"],
+            contract_id=data["contractID"],
             title=data["title"],
             client=data["client"],
-            client_tax_id=data["client_tax_id"],
-            client_project_manager=data["client_project_manager"],
+            client_tax_id=data["clientTaxID"],
+            client_project_manager=data["clientProjectManager"],
             address=data["address"],
             proposal=data["proposal"],
-            proposal_date=data["proposal_date"],
-            contract_amount=data["amount"],
+            proposal_date=data["proposalDate"],
+            contract_amount=data["contractAmount"],
             currency=data["currency"],
-            payment_schedule=data["payment_schedule"],
+            payment_schedule=data["paymentSchedule"],
         )
     except FileNotFoundError:
         raise typer.BadParameter(f'File "{file_path}" not found!')

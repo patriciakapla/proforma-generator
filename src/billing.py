@@ -15,13 +15,13 @@ def calculate_adjustment_amount(
     contract: Contract, milestones: list[int], cpi_variation: float
 ) -> float:
     """Calculate the CPI adjustment amount for a contract milestone"""
-    adjustment_list: list[float] = []
+    adjustment_amounts: list[float] = []
     for milestone in milestones:
         original_amount: list[float] = contract.calculate_milestone_amount()
         variation = cpi_variation / 100
         adjustment_amount = original_amount[milestone] * variation
-        adjustment_list.append(adjustment_amount)
-    adjustment_amount = sum(adjustment_list)
+        adjustment_amounts.append(adjustment_amount)
+    adjustment_amount = sum(adjustment_amounts)
     return adjustment_amount
 
 
@@ -31,3 +31,7 @@ def calculate_adjusted_subtotal(
 ) -> float:
     """Calculate the milestone amount after CPI adjustment"""
     return adjusted_amount + subtotal_amount
+
+
+# TODO: tax calculations
+# TODO: total amount

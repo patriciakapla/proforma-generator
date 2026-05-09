@@ -27,7 +27,7 @@ class Contract:
     def print_contract(self, milestones: list[int]) -> None:
         print(f"Selected contract: [yellow]{self.title}[/yellow]")
         for milestone in milestones:
-            if milestone:
+            if milestone:  # if called from generate_proforma command
                 print(
                     f"Selected milestone: [yellow]{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}[/yellow]"
                 )
@@ -41,8 +41,6 @@ class Contract:
                 end=" ",
             )
             print(self.payment_schedule[i]["description"])
-            # if self.payment_schedule[i]["amount"]:
-            #     print(self.payment_schedule[i]["amount"])
             if self.payment_schedule[i]["billed"]:
                 print("[green]Billed[/green]")
             else:
@@ -60,11 +58,8 @@ class Contract:
         return milestone_amounts
 
     def get_contract_date(self) -> str:
-        """gets contract date from given json"""
-        if self.proposal_date["month"] < 10:
-            return f"{self.proposal_date['year']}-0{self.proposal_date['month']}"
-        else:
-            return f"{self.proposal_date['year']}-{self.proposal_date['month']}"
+        """gets contract date from json"""
+        return f"{self.proposal_date["year"]}-{self.proposal_date["month"]}"
 
     def get_cpi_base_date(self) -> str:
         """calculates base month for adjustment calculation"""
@@ -84,7 +79,9 @@ class Contract:
                     "description": milestone["description"],
                     "percentage": milestone["percentage"],
                     "billed": milestone["billed"],
-                    "amount": self.calculate_milestone_amount()[i],
+                    "amount": self.calculate_milestone_amount()[
+                        i
+                    ],  # TODO: figure how to normalize amount
                 }
             )
         return updated_payment_schedule

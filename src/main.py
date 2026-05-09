@@ -56,8 +56,9 @@ def generate_proforma(
     contract = json_handling.load_data(fp)
     validate_milestones(milestones_indexes, contract)
     calculated_payload = data_dict.generate_calculated_data(contract, milestones)
+    normalized_payload = data_dict.normalize_data(calculated_payload)
     contract.print_contract(milestones_indexes)
-    generator.generate_pdf(calculated_payload, milestones_indexes)
+    generator.generate_pdf(normalized_payload, milestones_indexes)
 
 
 if __name__ == "__main__":

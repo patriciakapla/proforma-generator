@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from rich import print
 from typing import TYPE_CHECKING
 
@@ -17,10 +17,14 @@ def format_string_to_float(value: str) -> float:
     return float(new_value)
 
 
+def format_date_m_y(original_date: str) -> str:
+    old_format = datetime.strptime(original_date, "%Y-%m")
+    return old_format.strftime("%b/%Y")
+
+
 def today(date_format: str) -> str:
     today = date.today()
-    today_str = today.strftime(date_format)
-    return today_str
+    return today.strftime(date_format)
 
 
 # Validate milestone

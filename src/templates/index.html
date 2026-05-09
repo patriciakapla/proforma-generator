@@ -29,9 +29,8 @@
 
         <div class="details-container">
           <span class="details"> Attn. {{client_project_manager}} </span>
-          {% for key, value in address.items() %}
-          <span class="details">{{value}}</span>
-          {% endfor %}
+          <span class="details">{{address1}}</span>
+          <span class="details">{{address2}}</span>
           <span class="details">Tax ID: {{client_tax_id}}</span>
         </div>
       </div>
@@ -52,7 +51,7 @@
             >Contract amount
             <span style="font-size: 0.8rem">({{currency}}) </span></span
           >
-          <h2 class="title">$ {{contract_amount}}</h2>
+          <h2 class="title">{{contract_amount}}</h2>
         </div>
       </div>
       <div class="table">
@@ -65,16 +64,16 @@
           </span>
         </div>
         <div class="table-body">
-          {% for item in payment_schedule %}
+          {% for i, item in enumerate(payment_schedule) %}
           <div
-            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if loop.index in milestone_to_bill else ''}}"
+            class="table-row {{ 'billed' if item.billed else 'not-billed'}} {{ 'billing' if i+1 in milestone_to_bill else ''}}"
           >
             {% for key, value in item.items() %} {%if key == "description"%}
             <p class="milestone">{{value}}</p>
             {%elif key == "percentage"%}
             <p class="percentage">{{value}}%</p>
             {%elif key == "amount"%}
-            <p class="amount">$ {{value}}</p>
+            <p class="amount">${{milestone_amounts[i]}}</p>
             {%else%}{%endif%} {% endfor %}
           </div>
           {% endfor %}
@@ -95,7 +94,7 @@
             <p class="ipc-detail">{{base_month}}</p>
             <p class="ipc-detail">{{current_month}}</p>
             <p class="ipc-detail">{{cpi_variation}}</p>
-            <p class="ipc-detail">$ {{adjustment_amount}}</p>
+            <p class="ipc-detail">{{adjustment_amount}}</p>
           </div>
         </div>
         <span class="ipc-disclaimer"
@@ -108,13 +107,13 @@
             <p class="subtotal-title">Subtotal:</p>
             <p class="subtotal-title">Adjustment:</p>
             <p class="subtotal-title highlight">Adjusted subtotal:</p>
-            <p class="subtotal-title">Tax(21%):</p>
+            <p class="subtotal-title">Tax (21%):</p>
           </div>
           <div class="subtotal-detail-container">
-            <p class="subtotal-detail">$ {{subtotal_amount}}</p>
-            <p class="subtotal-detail">$ {{adjustment_amount}}</p>
-            <p class="subtotal-detail highlight">$ {{adjusted_subtotal}}</p>
-            <p class="subtotal-detail">REVIEW:{{taxAmount}}</p>
+            <p class="subtotal-detail">{{subtotal_amount}}</p>
+            <p class="subtotal-detail">{{adjustment_amount}}</p>
+            <p class="subtotal-detail highlight">{{adjusted_subtotal}}</p>
+            <p class="subtotal-detail">xxx{{taxAmount}}</p>
           </div>
         </div>
         <div class="total-amount-container">
@@ -122,7 +121,7 @@
             <p class="total-text highlight">Total amount due</p>
             <p class="total-text">({{currency}})</p>
           </div>
-          <p class="total-amount">REVIEW: $3.500,00</p>
+          <p class="total-amount">xxxx</p>
         </div>
       </div>
     </section>
