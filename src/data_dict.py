@@ -27,6 +27,7 @@ class CalculatedData(TypedDict):
     subtotal_amount: float
     adjustment_amount: float
     adjusted_subtotal: float
+    tax_amount: float
 
 
 class NormalizedData(TypedDict):
@@ -50,16 +51,27 @@ class NormalizedData(TypedDict):
     subtotal_amount: str
     adjustment_amount: str
     adjusted_subtotal: str
+    tax_amount: str
 
 
 def generate_calculated_data(
     contract: Contract, milestones: list[int]
 ) -> CalculatedData:
+
     cpi_variation = price_index.calculate_cpi_variation(contract)
+
     subtotal_amount = billing.calculate_subtotal(contract, milestones)
+
     adjustment_amount = billing.calculate_adjustment_amount(
         contract, milestones, cpi_variation
     )
+
+    adjusted_subtotal = billing.calculate_adjusted_subtotal(
+        subtotal_amount, adjustment_amount
+    )
+
+    tax_amount = billing.calculate_tax(adjusted_subtotal)
+
     return {
         "contract_id": contract.contract_id,
         "title": contract.title,
@@ -80,9 +92,8 @@ def generate_calculated_data(
         "cpi_variation": cpi_variation,
         "subtotal_amount": subtotal_amount,
         "adjustment_amount": adjustment_amount,
-        "adjusted_subtotal": billing.calculate_adjusted_subtotal(
-            subtotal_amount, adjustment_amount
-        ),
+        "adjusted_subtotal": adjusted_subtotal,
+        "tax_amount": tax_amount,
     }
 
 
@@ -118,6 +129,7 @@ def normalize_data(calculated_data: CalculatedData) -> NormalizedData:
         "subtotal_amount": f"$ {format_num_2dec(calculated_data["subtotal_amount"])}",
         "adjustment_amount": f"$ {format_num_2dec(calculated_data["adjustment_amount"])}",
         "adjusted_subtotal": f"$ {format_num_2dec(calculated_data["adjusted_subtotal"])}",
+        "tax_amount": f"$ {format_num_2dec(calculated_data["tax_amount"])}",
     }
 
 

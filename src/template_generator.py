@@ -61,6 +61,7 @@ def generate_pdf(data: NormalizedData, milestones: list[int]) -> None:
         subtotal_amount=data["subtotal_amount"],
         adjustment_amount=data["adjustment_amount"],
         adjusted_subtotal=data["adjusted_subtotal"],
+        tax_amount=data["tax_amount"],
         enumerate=enumerate,
     )
     pdf_name = define_pdf_name(data)

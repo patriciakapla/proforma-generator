@@ -33,5 +33,9 @@ def calculate_adjusted_subtotal(
     return adjusted_amount + subtotal_amount
 
 
+def calculate_tax(adjusted_subtotal: float) -> float:
+    return adjusted_subtotal * 0.21
+
+
 # TODO: tax calculations
 # TODO: total amount

@@ -343,6 +343,8 @@ body {
 .subtotal-title,
 .subtotal-detail,
 .total-text {
+  display: flex;
+  align-items: center;
   color: #e6e6e6;
   letter-spacing: 0.07rem;
 }
