@@ -5,6 +5,7 @@ import billing
 from typing import TypedDict
 from string import capwords
 from decimal import Decimal
+from price_index import CPI_data, fetch_cpi_data
 
 
 class CalculatedData(TypedDict):
@@ -30,6 +31,7 @@ class CalculatedData(TypedDict):
     adjusted_subtotal: Decimal
     tax_amount: Decimal
     total_amount: Decimal
+    cpi_data: list[CPI_data]
 
 
 class NormalizedData(TypedDict):
@@ -55,6 +57,7 @@ class NormalizedData(TypedDict):
     adjusted_subtotal: str
     tax_amount: str
     total_amount: str
+    cpi_data: list[CPI_data]
 
 
 def generate_calculated_data(
@@ -98,6 +101,7 @@ def generate_calculated_data(
         "adjusted_subtotal": adjusted_subtotal,
         "tax_amount": tax_amount,
         "total_amount": billing.calculate_total_amount(adjusted_subtotal, tax_amount),
+        "cpi_data": fetch_cpi_data(contract),
     }
 
 
@@ -139,4 +143,5 @@ def normalize_data(calculated_data: CalculatedData) -> NormalizedData:
         ),
         "tax_amount": money(two_decimals(calculated_data["tax_amount"]), "$"),
         "total_amount": money(two_decimals(calculated_data["total_amount"]), "$"),
+        "cpi_data": calculated_data["cpi_data"],
     }

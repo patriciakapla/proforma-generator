@@ -23,6 +23,7 @@ def fetch_cpi_data(contract: Contract) -> list[CPI_data]:
     """Fetch CPI data from the Argly API for the contract date range"""
     response = requests.get(build_request_url(contract))
     cpi_data = response.json()
+    print(*cpi_data["data"])
     return [*cpi_data["data"]]
 
 

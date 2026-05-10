@@ -32,7 +32,7 @@ def today(date_format: str) -> str:
     return today.strftime(date_format)
 
 
-# Validate milestone
+# Argument validation
 
 
 def validate_milestones(milestones: list[int], contract: Contract) -> None:
@@ -50,3 +50,13 @@ def validate_milestones(milestones: list[int], contract: Contract) -> None:
 
 def milestones_to_indexes(milestones: list[int]) -> list[int]:
     return [milestone - 1 for milestone in milestones]
+
+
+# def validate_billing_status(update_billing_status: str) -> None:
+#     from typer import Exit
+
+#     parameters = ["-update", "-q"]
+#     if update_billing_status:
+#         if update_billing_status not in parameters:
+#             print(f"Parameters expected: {parameters}")
+#             raise Exit()
