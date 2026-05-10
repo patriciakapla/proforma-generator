@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from rich import print
 from typing import TypedDict
 from decimal import Decimal
-from utils import milestones_to_indexes
+from utils import milestones_to_indexes, pretty_msg
 
 
 class PaymentScheduleMilestone(TypedDict):
@@ -26,29 +26,29 @@ class Contract:
     currency: str
     payment_schedule: list[PaymentScheduleMilestone]
 
-    def print_contract(self, milestones: list[int]) -> None:
+    def print_contract(self) -> None:
+        print("Selected contract: ", end="")
+        pretty_msg(f"{self.title}\n", "bold medium_purple1")
+
+    def print_selected_milestones(self, milestones: list[int]) -> None:
         milestones_indexes = milestones_to_indexes(milestones)
-        print(f"Selected contract: [yellow]{self.title}[/yellow]")
         for milestone in milestones_indexes:
-            if milestone:  # if called from generate_proforma command
-                print(
-                    f"Selected milestone: [yellow]{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}[/yellow]"
-                )
+            pretty_msg(
+                f"Selected milestone:{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}",
+                "medium_turquoise",
+            )
 
     def print_milestones(self) -> None:
         for i, _ in enumerate(self.payment_schedule):
-            print(f"[bold yellow][{i+1}]: [/bold yellow]", sep="", end=" ")
-            print(
-                f"[default]{self.payment_schedule[i]["percentage"]}% - [/default]",
-                sep="",
-                end=" ",
+            pretty_msg(f"[{i+1}]: ", "bold medium_turquoise", " ")
+            pretty_msg(
+                f"{self.payment_schedule[i]["percentage"]}% - {self.payment_schedule[i]["description"]}",
+                "default",
             )
-            print(self.payment_schedule[i]["description"])
             if self.payment_schedule[i]["billed"]:
-                print("[green]Billed[/green]")
+                pretty_msg("\t Billed", "chartreuse3", "\n\n")
             else:
-                print("[red]Not billed[/red]")
-            print()
+                pretty_msg("\t Not billed", "red3", "\n\n")
 
     def calculate_milestone_amount(
         self,

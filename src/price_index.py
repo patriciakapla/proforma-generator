@@ -12,6 +12,7 @@ class CPI_data(TypedDict):
     anio: int
     nombre_mes: str
     valor: Decimal
+    f_mes: int | str | None
 
 
 def build_request_url(contract: Contract) -> str:
@@ -23,7 +24,6 @@ def fetch_cpi_data(contract: Contract) -> list[CPI_data]:
     """Fetch CPI data from the Argly API for the contract date range"""
     response = requests.get(build_request_url(contract))
     cpi_data = response.json()
-    print(*cpi_data["data"])
     return [*cpi_data["data"]]
 
 
@@ -37,3 +37,9 @@ def calculate_cpi_variation(contract: Contract) -> Decimal:
         index *= 1 + rate
     accumulated_variation = index - 100
     return accumulated_variation
+
+
+def format_month_2digits(cpi_data: list[CPI_data]):
+    for item in cpi_data:
+        item["f_mes"] = f"0{item['mes']}" if item["mes"] < 10 else item["mes"]
+    return cpi_data

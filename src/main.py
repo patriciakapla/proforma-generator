@@ -2,8 +2,7 @@ import typer
 from typing import Annotated
 import json_handling
 import template_generator as generator
-from rich import print
-from utils import validate_milestones
+from utils import validate_milestones, pretty_msg
 import data_dict
 
 app = typer.Typer()
@@ -11,7 +10,7 @@ app = typer.Typer()
 
 @app.callback()
 def main():
-    print("[purple]PROFORMA GENERATOR[/purple]")
+    pretty_msg("PROFORMA GENERATOR\n", "bold medium_purple1")
 
 
 @app.command("mile")
@@ -24,7 +23,7 @@ def display_milestones(
     ],
 ) -> None:
     contract = json_handling.load_data(file_path)
-    contract.print_contract([])
+    contract.print_contract()
     contract.print_milestones()
 
 
@@ -53,8 +52,10 @@ def generate_proforma(
     validate_milestones(milestones, contract)
     calculated_payload = data_dict.generate_calculated_data(contract, milestones)
     normalized_payload = data_dict.normalize_data(calculated_payload)
-    contract.print_contract(milestones)
+    contract.print_contract()
+    contract.print_selected_milestones(milestones)
     generator.generate_pdf(normalized_payload, milestones)
+    pretty_msg("Proforma generated successfully.", "chartreuse3")
 
 
 @app.command("update")
@@ -83,11 +84,11 @@ def update_contract(
     validate_milestones(milestones, contract)
     if billing_status in ["b", "n"]:
         json_handling.update_json(file_path, contract, milestones, billing_status)
-        print("Billing status updated")
+        pretty_msg("Billing status updated", "chartreuse3")
     elif billing_status == "q":
-        print("Leaving...")
+        pretty_msg("Leaving...", "medium_purple1")
     else:
-        print("Not a valid status")
+        pretty_msg("Not a valid status", "red3")
 
 
 if __name__ == "__main__":

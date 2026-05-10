@@ -147,6 +147,23 @@
         </p>
       </div>
     </section>
-    <!-- TODO: Add section with CPI table (pdf page 2) -->
+
+    <section class="price-variation new-page">
+      <div class="table">
+        <h2 class="title centered">INDEC CPI</h2>
+        <div class="table-heading">
+          <span class="subheading">Period</span>
+          <span class="subheading">Variation</span>
+        </div>
+        <div class="table-body">
+          {% for item in cpi_data%}
+          <div class="table-row {{ 'even' if loop.index % 2 == 0 else 'odd'}}">
+            <p class="date">{{item["f_mes"]}}/{{item["anio"]}}:</p>
+            <p class="variation">{{item["valor"]}}%</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
   </body>
 </html>

@@ -404,3 +404,23 @@ body {
 .bank .subheading {
   font-size: 1.2rem;
 }
+
+/* PRICE INDEX TABLE */
+
+.price-variation {
+  display: flex;
+  padding: 2rem 4rem;
+  margin: 4rem 9rem;
+  justify-content: space-around;
+  gap: 3rem;
+}
+
+.centered {
+  align-self: center;
+}
+.new-page {
+  page-break-before: always;
+}
+.odd {
+  background-color: #dddcdb;
+}

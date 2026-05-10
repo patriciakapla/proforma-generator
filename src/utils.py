@@ -32,6 +32,10 @@ def today(date_format: str) -> str:
     return today.strftime(date_format)
 
 
+def pretty_msg(msg: str, style: str, new_end: str = "\n") -> None:
+    print(f"[{style}]{msg}[/{style}]", end=new_end)
+
+
 # Argument validation
 
 
@@ -42,21 +46,10 @@ def validate_milestones(milestones: list[int], contract: Contract) -> None:
     contract_milestones = len(contract.payment_schedule)
     for milestone in milestones_indexes:
         if milestone not in range(contract_milestones):
-            print(
-                f"Milestone out of range. Selected contract has {contract_milestones} milestones."
-            )
+            pretty_msg("Milestone(s) out of range.", "red3")
+            print(f"Selected contract has {contract_milestones} milestones. \n")
             raise Exit()
 
 
 def milestones_to_indexes(milestones: list[int]) -> list[int]:
     return [milestone - 1 for milestone in milestones]
-
-
-# def validate_billing_status(update_billing_status: str) -> None:
-#     from typer import Exit
-
-#     parameters = ["-update", "-q"]
-#     if update_billing_status:
-#         if update_billing_status not in parameters:
-#             print(f"Parameters expected: {parameters}")
-#             raise Exit()

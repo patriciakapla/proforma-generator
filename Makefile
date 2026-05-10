@@ -6,6 +6,9 @@ rung2: # run generate_proforma command
 runm:	# run display milestones command
 	venv/Scripts/python src/main.py mile data/contract_data.json
 
+runu: # run update contract command
+	venv/Scripts/python src/main.py update data/contract_data.json 2
+
 setup: requirements.txt
 	./venv/Scripts/pip install -r requirements.txt
 

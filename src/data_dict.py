@@ -5,7 +5,7 @@ import billing
 from typing import TypedDict
 from string import capwords
 from decimal import Decimal
-from price_index import CPI_data, fetch_cpi_data
+from price_index import CPI_data, fetch_cpi_data, format_month_2digits
 
 
 class CalculatedData(TypedDict):
@@ -143,5 +143,5 @@ def normalize_data(calculated_data: CalculatedData) -> NormalizedData:
         ),
         "tax_amount": money(two_decimals(calculated_data["tax_amount"]), "$"),
         "total_amount": money(two_decimals(calculated_data["total_amount"]), "$"),
-        "cpi_data": calculated_data["cpi_data"],
+        "cpi_data": format_month_2digits(calculated_data["cpi_data"]),
     }
