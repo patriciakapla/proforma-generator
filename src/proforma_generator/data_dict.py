@@ -136,7 +136,7 @@ def normalize_data(calculated_data: CalculatedData) -> NormalizedData:
         "address2": address2,
         "proposal": calculated_data["proposal"],
         "proposal_date": format_date_m_y(calculated_data["proposal_date"]),
-        "contract_amount": f"$ {two_decimals(calculated_data["contract_amount"])}",
+        "contract_amount": money(two_decimals(calculated_data["contract_amount"]), "$"),
         "currency": calculated_data["currency"].upper(),
         "milestone_amounts": f_milestone_amounts,
         "payment_schedule": calculated_data["payment_schedule"],
