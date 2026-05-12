@@ -1,11 +1,21 @@
-from contract import Contract, PaymentScheduleMilestone
-from utils import today, format_date_m_y, two_decimals, money, percentage
-import price_index
-import billing
+from proforma_generator.contract import Contract, PaymentScheduleMilestone
+from proforma_generator.utils import (
+    today,
+    format_date_m_y,
+    two_decimals,
+    money,
+    percentage,
+)
+from proforma_generator import price_index
+from proforma_generator import billing
 from typing import TypedDict
 from string import capwords
 from decimal import Decimal
-from price_index import CPI_data, fetch_cpi_data, format_month_2digits
+from proforma_generator.price_index import (
+    CPI_data,
+    fetch_cpi_data,
+    format_month_2digits,
+)
 
 
 class CalculatedData(TypedDict):

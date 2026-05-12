@@ -1,7 +1,8 @@
 from jinja2 import Environment, FileSystemLoader, Template
 from weasyprint import HTML  # pyright: ignore[reportMissingTypeStubs]
 from pathlib import Path
-from data_dict import NormalizedData
+from proforma_generator.data_dict import NormalizedData
+import os
 
 
 def create_jinja_environment(templates_path: Path) -> Environment:
@@ -27,12 +28,15 @@ def define_pdf_name(data: NormalizedData) -> str:
     return f"{str(data["contract_id"])} - {data["title"]} - Proforma {data["date_today"].replace("/", "-")}.pdf"
 
 
-def write_pdf(final_html: HTML, pdf_name: str) -> None:
-    pdf_path = Path("pdf") / pdf_name
+def write_pdf(final_html: HTML, pdf_name: str, ENV_VAR_NAME_PDF: str) -> None:
+    dir = os.environ.get(ENV_VAR_NAME_PDF)
+    pdf_path = Path(str(dir)) / pdf_name
     final_html.write_pdf(str(pdf_path))  # pyright: ignore[reportUnknownMemberType]
 
 
-def generate_pdf(data: NormalizedData, milestones: list[int]) -> None:
+def generate_pdf(
+    data: NormalizedData, milestones: list[int], ENV_VAR_NAME: str
+) -> None:
     templates_path = Path(__file__).parent / "templates"
     env = create_jinja_environment(templates_path)
     template = load_template(env, "index.html")
@@ -67,4 +71,4 @@ def generate_pdf(data: NormalizedData, milestones: list[int]) -> None:
         enumerate=enumerate,
     )
     pdf_name = define_pdf_name(data)
-    write_pdf(final_html, pdf_name)
+    write_pdf(final_html, pdf_name, ENV_VAR_NAME)

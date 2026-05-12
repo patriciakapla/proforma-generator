@@ -1,7 +1,7 @@
 """Functions for calculating CPI-based contract adjustments using Argly API data"""
 
-import utils
-from contract import Contract
+from proforma_generator import utils
+from proforma_generator.contract import Contract
 import requests
 from typing import TypedDict
 from decimal import Decimal

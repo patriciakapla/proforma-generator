@@ -1,5 +1,5 @@
-from contract import Contract
-import utils
+from proforma_generator.contract import Contract
+from proforma_generator import utils
 from decimal import Decimal
 
 

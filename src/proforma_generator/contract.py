@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from rich import print
 from typing import TypedDict
 from decimal import Decimal
-from utils import milestones_to_indexes, pretty_msg
+from proforma_generator.utils import milestones_to_indexes, pretty_msg
 
 
 class PaymentScheduleMilestone(TypedDict):
@@ -28,7 +28,7 @@ class Contract:
 
     def print_contract(self) -> None:
         print("Selected contract: ", end="")
-        pretty_msg(f"{self.title}\n", "bold medium_purple1")
+        pretty_msg(f"{self.title.upper()}\n", "bold medium_purple1")
 
     def print_selected_milestones(self, milestones: list[int]) -> None:
         milestones_indexes = milestones_to_indexes(milestones)
@@ -46,9 +46,9 @@ class Contract:
                 "default",
             )
             if self.payment_schedule[i]["billed"]:
-                pretty_msg("\t Billed", "chartreuse3", "\n\n")
+                pretty_msg("\t Billed", "sea_green1", "\n\n")
             else:
-                pretty_msg("\t Not billed", "red3", "\n\n")
+                pretty_msg("\t Not billed", "indian_red", "\n\n")
 
     def calculate_milestone_amount(
         self,

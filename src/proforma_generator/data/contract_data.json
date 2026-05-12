@@ -21,7 +21,7 @@
     {
       "description": "Upfront",
       "percentage": 20,
-      "billed": true
+      "billed": false
     },
     {
       "description": "Vampire study",

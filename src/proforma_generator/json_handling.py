@@ -1,15 +1,21 @@
 import json
 import typer
 from pathlib import Path
-from contract import Contract
+from proforma_generator.contract import Contract
+import os
 
 
-def load_data(file_path: str):
-    # from contract import Contract
-    fp = Path(file_path)
+def define_json_path(file: str, ENV_VAR_NAME: str) -> Path:
+    name_to_json = f"{file}.json"
+    dir = os.environ.get(ENV_VAR_NAME)
+    fp = Path(str(dir)) / name_to_json
+    return fp
+
+
+def load_data(fp: Path):
     try:
-        with open(fp, "r", encoding="utf8") as file:
-            data = json.load(file)
+        with open(fp, "r", encoding="utf8") as f:
+            data = json.load(f)
         return Contract(
             contract_id=data["contract_id"],
             title=data["title"],
@@ -28,15 +34,12 @@ def load_data(file_path: str):
 
 
 def update_json(
-    file_path: str,
-    contract: Contract,
-    milestones: list[int],
-    billing_status: str,
+    contract: Contract, milestones: list[int], billing_status: str, fp: Path
 ) -> None:
     for milestone in milestones:
-        if billing_status == "-b":
+        if billing_status == "b":
             contract.payment_schedule[milestone - 1]["billed"] = True
-        elif billing_status == "-n":
+        elif billing_status == "n":
             contract.payment_schedule[milestone - 1]["billed"] = False
-    with open(file_path, "w", encoding="utf8") as file:
-        json.dump(contract.__dict__, file, indent=2)
+    with open(fp, "w", encoding="utf8") as f:
+        json.dump(contract.__dict__, f, indent=2)
