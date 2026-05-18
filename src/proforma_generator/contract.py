@@ -34,7 +34,7 @@ class Contract:
         milestones_indexes = milestones_to_indexes(milestones)
         for milestone in milestones_indexes:
             pretty_msg(
-                f"Selected milestone:{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}",
+                f"Selected milestone:{self.payment_schedule[milestone]["percentage"]}% - {self.payment_schedule[milestone]["description"]}\n",
                 "medium_turquoise",
             )
 

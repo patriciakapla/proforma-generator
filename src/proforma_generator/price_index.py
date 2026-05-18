@@ -5,6 +5,7 @@ from proforma_generator.contract import Contract
 import requests
 from typing import TypedDict
 from decimal import Decimal
+from typer import BadParameter
 
 
 class CPI_data(TypedDict):
@@ -22,8 +23,23 @@ def build_request_url(contract: Contract) -> str:
 
 def fetch_cpi_data(contract: Contract) -> list[CPI_data]:
     """Fetch CPI data from the Argly API for the contract date range"""
-    response = requests.get(build_request_url(contract))
-    cpi_data = response.json()
+
+    try:
+        response = requests.get(build_request_url(contract), timeout=10)
+        response.raise_for_status()
+        cpi_data = response.json()
+
+    except requests.RequestException as error:
+        raise BadParameter(
+            f"Could not fetch CPI data. Please check your internet connection or try again later. Details: {error}"
+        )
+
+    except ValueError:
+        raise BadParameter("API returned an invalid JSON response.")
+
+    if "data" not in cpi_data:
+        raise BadParameter("API response does not contain CPI data.")
+
     return [*cpi_data["data"]]
 
 

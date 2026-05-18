@@ -15,13 +15,14 @@ def calculate_subtotal(contract: Contract, milestones: list[int]) -> Decimal:
 def calculate_adjustment_amount(
     contract: Contract, milestones: list[int], cpi_variation: Decimal
 ) -> Decimal:
-    """Calculate the CPI adjustment amount for a contract milestone"""
+    """Calculate the CPI adjustment amount for contract milestones"""
 
     variation = cpi_variation / Decimal("100")
+    milestones_index = utils.milestones_to_indexes(milestones)
     original_amount: list[Decimal] = contract.calculate_milestone_amount()
 
     return sum(
-        (original_amount[milestone] * variation for milestone in milestones),
+        (original_amount[milestone] * variation for milestone in milestones_index),
         Decimal("0"),
     )
 

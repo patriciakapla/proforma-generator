@@ -22,7 +22,7 @@ ENV_VAR_NAME_PDF = "PDF_DIR"
 
 @app.callback()
 def main():
-    pretty_msg("PROFORMA GENERATOR\n", "bold medium_purple1")
+    pretty_msg("\nPROFORMA GENERATOR\n", "bold medium_purple1")
 
 
 @app.command("set")
