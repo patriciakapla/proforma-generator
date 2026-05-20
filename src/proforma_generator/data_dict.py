@@ -76,7 +76,7 @@ def generate_calculated_data(
     subtotal_amount = billing.calculate_subtotal(contract, milestones)
 
     adjustment_amount = billing.calculate_adjustment_amount(
-        contract, milestones, cpi_variation
+        contract, milestones, (cpi_variation * 100)
     )
 
     adjusted_subtotal = billing.calculate_adjusted_subtotal(
