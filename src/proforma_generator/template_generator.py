@@ -1,4 +1,5 @@
 from jinja2 import Environment, FileSystemLoader, Template
+from typer import Exit
 from weasyprint import HTML  # pyright: ignore[reportMissingTypeStubs]
 from pathlib import Path
 from proforma_generator.data_dict import NormalizedData
@@ -26,18 +27,22 @@ def render_final_html(
     )
 
 
-def define_pdf_name(data: NormalizedData) -> str:
+def define_pdf_name(data: NormalizedData, locale: str) -> str:
     d = date.today()
-    day = format_date(d, format="dd")
-    month = format_date(d, format="MM")
-    year = format_date(d, format="YYYY")
+    day = format_date(d, format="dd", locale=locale)
+    month = format_date(d, format="MM", locale=locale)
+    year = format_date(d, format="YYYY", locale=locale)
     return f"{str(data["contract_id"])} - {data["title"]} - Proforma {year}-{month}-{day}.pdf"
 
 
 def write_pdf(final_html: HTML, pdf_name: str, ENV_VAR_NAME_PDF: str) -> None:
-    dir = os.environ.get(ENV_VAR_NAME_PDF)
-    pdf_path = Path(str(dir)) / pdf_name
-    final_html.write_pdf(str(pdf_path))  # pyright: ignore[reportUnknownMemberType]
+    try:
+        dir = os.environ.get(ENV_VAR_NAME_PDF)
+        pdf_path = Path(str(dir)) / pdf_name
+        final_html.write_pdf(str(pdf_path))  # pyright: ignore[reportUnknownMemberType]
+    except PermissionError:
+        print(f"Permission denied. Check if file '{pdf_name}' is open and try again.")
+        raise Exit(code=1)
 
 
 def generate_pdf(
@@ -76,5 +81,5 @@ def generate_pdf(
         cpi_data=data["cpi_data"],
         enumerate=enumerate,
     )
-    pdf_name = define_pdf_name(data)
+    pdf_name = define_pdf_name(data, "en_US")
     write_pdf(final_html, pdf_name, ENV_VAR_NAME)
