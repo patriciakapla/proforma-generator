@@ -41,7 +41,9 @@ def write_pdf(final_html: HTML, pdf_name: str, ENV_VAR_NAME_PDF: str) -> None:
         pdf_path = Path(str(dir)) / pdf_name
         final_html.write_pdf(str(pdf_path))  # pyright: ignore[reportUnknownMemberType]
     except PermissionError:
-        print(f"Permission denied. Check if file '{pdf_name}' is open and try again.")
+        print(
+            f"Permission denied. If file '{pdf_name}' is open, close it and try again."
+        )
         raise Exit(code=1)
 
 
