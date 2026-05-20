@@ -9,7 +9,7 @@ from enum import Enum
 if TYPE_CHECKING:
     from proforma_generator.contract import Contract
 
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal
 
 DECIMALS = Decimal("0.01")
 
@@ -28,15 +28,7 @@ class DirectoryTarget(str, Enum):
     pdf = "pdf"
 
 
-def two_decimals(value: Decimal) -> Decimal:
-    return Decimal(value).quantize(DECIMALS, rounding=ROUND_HALF_UP)
-
-
-def money(value: Decimal, currency: str) -> str:
-    return f"{currency} {value:,f}"
-
-
-def percentage(value: Decimal) -> str:
+def percentage(value: str) -> str:
     return f"{value}%"
 
 

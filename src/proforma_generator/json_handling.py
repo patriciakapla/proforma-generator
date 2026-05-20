@@ -26,7 +26,7 @@ def load_data(fp: Path):
             proposal=data["proposal"],
             proposal_date=data["proposal_date"],
             contract_amount=data["contract_amount"],
-            currency=data["currency"],
+            currency=data["currency"].upper(),
             payment_schedule=data["payment_schedule"],
         )
     except FileNotFoundError:

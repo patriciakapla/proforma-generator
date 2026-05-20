@@ -3,6 +3,8 @@ from weasyprint import HTML  # pyright: ignore[reportMissingTypeStubs]
 from pathlib import Path
 from proforma_generator.data_dict import NormalizedData
 import os
+from datetime import date
+from babel.dates import format_date
 
 
 def create_jinja_environment(templates_path: Path) -> Environment:
@@ -25,7 +27,11 @@ def render_final_html(
 
 
 def define_pdf_name(data: NormalizedData) -> str:
-    return f"{str(data["contract_id"])} - {data["title"]} - Proforma {data["date_today"].replace("/", "-")}.pdf"
+    d = date.today()
+    day = format_date(d, format="dd")
+    month = format_date(d, format="MM")
+    year = format_date(d, format="YYYY")
+    return f"{str(data["contract_id"])} - {data["title"]} - Proforma {year}-{month}-{day}.pdf"
 
 
 def write_pdf(final_html: HTML, pdf_name: str, ENV_VAR_NAME_PDF: str) -> None:

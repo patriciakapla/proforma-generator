@@ -1,11 +1,13 @@
 """Functions for calculating CPI-based contract adjustments using Argly API data"""
 
-from proforma_generator import utils
+# from proforma_generator import utils
 from proforma_generator.contract import Contract
 import requests
 from typing import TypedDict
 from decimal import Decimal
 from typer import BadParameter
+from datetime import date
+from babel.dates import format_date
 
 
 class CPI_data(TypedDict):
@@ -18,7 +20,11 @@ class CPI_data(TypedDict):
 
 def build_request_url(contract: Contract) -> str:
     """Build the Argly API request URL for the contract CPI period"""
-    return f"https://api.argly.com.ar/api/ipc/range?desde={contract.get_cpi_base_date()}&hasta={utils.today('%Y-%m')}"
+    today = format_date(date.today(), format="yyyy-MM", locale="en_US")
+    base_date = format_date(
+        contract.get_cpi_base_date(), format="yyyy-MM", locale="en_US"
+    )
+    return f"https://api.argly.com.ar/api/ipc/range?desde={base_date}&hasta={today}"
 
 
 def fetch_cpi_data(contract: Contract) -> list[CPI_data]:
@@ -51,7 +57,7 @@ def calculate_cpi_variation(contract: Contract) -> Decimal:
         monthly_variation = Decimal(str(item["valor"]))
         rate = monthly_variation / 100
         index *= 1 + rate
-    accumulated_variation = index - 100
+    accumulated_variation = (index - 100) / 100
     return accumulated_variation
 
 

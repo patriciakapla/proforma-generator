@@ -2,7 +2,15 @@ from dataclasses import dataclass
 from rich import print
 from typing import TypedDict
 from decimal import Decimal
+from datetime import date
 from proforma_generator.utils import milestones_to_indexes, pretty_msg
+from typer import Exit
+
+CURRENCY_LOCALES = {
+    "USD": "en_US",
+    "ARS": "es_AR",
+    "BRL": "pt_BR",
+}
 
 
 class PaymentScheduleMilestone(TypedDict):
@@ -60,11 +68,11 @@ class Contract:
             milestone_amounts.append(amount)
         return milestone_amounts
 
-    def get_contract_date(self) -> str:
+    def get_contract_date(self) -> date:
         """gets contract date from json"""
-        return f"{self.proposal_date["year"]}-{self.proposal_date["month"]}"
+        return date(self.proposal_date["year"], self.proposal_date["month"], 1)
 
-    def get_cpi_base_date(self) -> str:
+    def get_cpi_base_date(self) -> date:
         """calculates base month for adjustment calculation"""
         if self.proposal_date["month"] == 1:
             base_year = self.proposal_date["year"] - 1
@@ -72,7 +80,7 @@ class Contract:
         else:
             base_year = self.proposal_date["year"]
             base_month = self.proposal_date["month"] - 1
-        return f"{base_year}-{base_month}"
+        return date(base_year, base_month, 1)
 
     def payment_schedule_with_amount(self) -> list[PaymentScheduleMilestone]:
         updated_payment_schedule: list[PaymentScheduleMilestone] = []
@@ -86,3 +94,11 @@ class Contract:
                 }
             )
         return updated_payment_schedule
+
+    def get_locale(self) -> str:
+        try:
+            locale = CURRENCY_LOCALES[self.currency]
+            return locale
+        except KeyError:
+            print(f"Unsupported currency in contract file: {self.currency}")
+            raise Exit(code=1)
